@@ -1,6 +1,6 @@
 #!/usr/bin/ruby
 
-class Country 
+class Country
   # food production is dependent on the following but for now just use single value
   # @area
   # @climate
@@ -12,32 +12,36 @@ class Country
     @population = population
     @food_production = food_production
     @food_storage = 0
-    @@fertility_rate = 0.02
+    @@fertility_rate = 0.8
   end
 
   # Every turn each country changes it's stats
   def turn
-    @population += @population * @@fertility_rate
-    # @population -= @population * (@hungry_percent)
-
     # start with simplest model of food consumption and creation
     if @food_production >= @population
       food_surplus = @food_production - @population
-    elsif @food_production < @population
+    else
       food_deficit = @population - @food_production
     end
-
+    puts "surp"
+    puts food_surplus
+    puts "def"
+    puts food_deficit
+    puts "storage"
+    puts @food_storage
     if food_surplus
       @food_storage += food_surplus
     elsif food_deficit
       if @food_storage >= food_deficit
         @food_storage -= food_deficit
-      elsif food_deficit > @food_storage
-        @food_storage = 0
+      else
         shortage = food_deficit - @food_storage
+        @food_storage = 0
         @population -= shortage # that many people starve
       end
     end
+
+    @population += (@population * @@fertility_rate).floor
   end
 
   def to_s_pretty
@@ -46,7 +50,7 @@ units of food and has #{@food_storage} units stored."
   end
 
   def to_s
-    puts "#{@name}: #{@population}, #{@food_production}, #{@food_storage}" 
+    puts "#{@name}: #{@population}, #{@food_production}, #{@food_storage}"
   end
 end
 
@@ -60,11 +64,11 @@ class World
   end
 
   def add_countries
-    @countries.push(Country.new("USA", 3e8, 8e8))
-    @countries.push(Country.new("Mexico", 2e8, 3e8))
-    @countries.push(Country.new("India", 1.2e9, 6e8))
+    @countries.push(Country.new("USA", 300, 800))
+    @countries.push(Country.new("Mexico", 200, 163))
+    @countries.push(Country.new("India", 1300, 1100))
   end
-  
+
   def turn
     @countries.each do |country|
       country.turn
@@ -82,7 +86,7 @@ class World
 
   def to_s
     @countries.each do |country|
-      country.to_s
+      country.to_s_pretty
     end
   end
 end
@@ -97,13 +101,13 @@ class Game
   def play
     max_turns = 10
     while @turn < max_turns
+      turn
       puts "Hit enter for next turn"
       gets
-      turn
       @turn +=1
     end
   end
-  
+
   def game_over
     puts "everone is dead"
     puts "you lasted #{@turn} turns"
@@ -111,6 +115,7 @@ class Game
   end
 
   def turn
+    self.to_s
     @world.turn
     if @world.world_population <= 0
       game_over
