@@ -1,13 +1,14 @@
-# "Give me a problem to solve" --Me
-# "Worold Hunger" -- Roomate
-
 # Let's model world Hunger!
 
-=begin
- Gmae Description
- Objective: Solve world hunger by distributing resources
 
-Base Ideas
+>"Give me a problem to solve" --Me
+>>"World Hunger" --Roomate
+
+
+###Game Description
+Objective: Solve world hunger by distributing resources
+
+###Base Ideas
 Model the world as a deries of countries
 Each country has a population
 Each country has a food production capacity
@@ -17,7 +18,7 @@ You can move food from place to place to help feed world
 
 
 
-Addtional Ideas
+###Addtional Ideas
 Food production capacity is fixed but fluctuates according to weather
 You have some amount of money that you use to buy, sell, distribute food
 Basically you're a nonprofit rather than god so your goal is to end world hunger
@@ -31,15 +32,13 @@ food production is based on area, population, climate,
 population changes each turn based on fertility rate adn how hungry people are
 population dies depending on hunger rate so doign bad makes poeple die and everyone beign dead means losing the game
 
-=end
 
-
-=begin
-How to build?
+####How to build?
 
 Get list of countries (start with continents?)
 Set countries to have population and food production capacity
 
 Start by making this round based text based command line game
- 
-=end
+
+
+Really long term goal is just model the world with excessive detail.  Every time you can think of another real world element that can be translated into code go for it.  Oh what increasing education decreases fertility rate? kay. model it.  Just for fun. 
