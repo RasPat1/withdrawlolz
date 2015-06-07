@@ -23,12 +23,7 @@ class Country
     else
       food_deficit = @population - @food_production
     end
-    puts "surp"
-    puts food_surplus
-    puts "def"
-    puts food_deficit
-    puts "storage"
-    puts @food_storage
+
     if food_surplus
       @food_storage += food_surplus
     elsif food_deficit
