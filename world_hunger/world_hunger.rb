@@ -1,27 +1,23 @@
 #!/usr/bin/ruby
 
 class Country 
-  @name
-  @population
-  @food_storage
-  @food_prodcution
-
   # food production is dependent on the following but for now just use single value
   # @area
   # @climate
   # @fertility_rate # or fertility rate can be dependent on how hungry people are
   # @population
-
+  attr_reader :population
   def initialize(name, population, food_production)
     @name = name
     @population = population
     @food_production = food_production
     @food_storage = 0
+    @@fertility_rate = 0.02
   end
 
   # Every turn each country changes it's stats
   def turn
-    new_population += @population * @fertility_rate
+    @population += @population * @@fertility_rate
     # @population -= @population * (@hungry_percent)
 
     # start with simplest model of food consumption and creation
@@ -56,9 +52,7 @@ end
 
 
 class World
-  @countries
-  @world_population
-
+  attr_reader :world_population
   def initialize
     @countries = []
     add_countries
@@ -94,9 +88,6 @@ class World
 end
 
 class Game
-  @world
-  @turn
-
   def initialize
     @world = World.new
     @turn = 0
@@ -120,15 +111,15 @@ class Game
   end
 
   def turn
-    world.turn
-    if world.world_population <= 0
+    @world.turn
+    if @world.world_population <= 0
       game_over
     end
   end
 
   def to_s
     puts "Turn: #{@turn}"
-    world.to_s
+    @world.to_s
   end
 end
 
