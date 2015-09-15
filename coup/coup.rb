@@ -92,12 +92,14 @@ class Game
     end
 
     next_player()
+
     if is_game_over()
       puts "game over"
       puts get_winner
     else
       turn()
     end
+
   end
 
   def is_game_over()
@@ -122,6 +124,7 @@ class Game
     elsif id == 2
       @player2
     end
+  end
 end
 
 class Player
@@ -129,56 +132,57 @@ class Player
   @influence1
   @influence2
 
-  def initialize(coin_count, @deck)
+  def initialize(coin_count, deck)
     @coin_count = coin_count
     @influence1 = @deck.get_random_influence()
     @influence2 = @deck.get_random_influence()
   end
 
   def is_dead
-    @influence1.
+    !@influence1.active && !@influence2.active
+  end
 end
 
 class Action
   @action_id
   @target
-  @@action_map = [
-    0: [
+  @@action_map = {
+    "0": {
       description: "Take Income",
       can_be_challenged: false,
       can_be_countered: false
-    ],
-    1: [
+    },
+    "1": {
       description: "Take Foreign Aid",
       can_be_challenged: false,
       can_be_countered: true
-    ]
-    2: [
+    },
+    "2": {
       description: "Stage a Coup",
       can_be_challenged: false,
       can_be_countered: true
-    ],
-    3: [
+    },
+    "3": {
       description: "Take Tax",
       can_be_challenged: true,
       can_be_countered: true
-    ]
-    4: [
+    },
+    "4": {
       description: "Assassinate",
       can_be_challenged: true,
       can_be_countered: true
-    ],
-    5: [
+    },
+    "5": {
       description: "Exchange",
       can_be_challenged: true,
       can_be_countered: true
-    ]
-    6: [
+    },
+    "6": {
       description: "Steal",
       can_be_challenged: true,
       can_be_countered: true
-    ]
-  ]
+    }
+  }
 
   def initialize(action_id, target)
     @action_id = action_id
@@ -190,7 +194,7 @@ class Action
   end
 
   def get_description
-    @action_map[@action_id]?.description
+    @action_map[@action_id].description
   end
 
   def to_string
@@ -220,28 +224,28 @@ end
 
 class Character
   @character_id
-  @@character_map = [
-    0: [
+  @@character_map = {
+    "0": {
       name: "Duke",
       action_id: 3
-    ],
-    1: [
+    },
+    "1": {
       name: "Assassin",
       action_id: 4
-    ],
-    2: [
+    },
+    "2": {
       name: "Ambassador",
       action_id: 6
-    ],
-    3: [
+    },
+    "3": {
       name: "Contessa",
       action_id: -1
-    ],
-    4: [
+    },
+    "4": {
       name: "Captain",
       action_id: 5
-    ]
-  ]
+    }
+  }
 
   def initialize(id)
     @character_id = id
@@ -249,9 +253,9 @@ class Character
 
   def get_all_characters()
     characters = []
-    @@character_map.each_with_index do |character_info, index| do
+    @@character_map.each_with_index {|character_info, index|
       characters += new Character(index)
-    end
+    }
     characters
   end
 end
