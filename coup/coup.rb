@@ -134,8 +134,8 @@ class Player
 
   def initialize(coin_count, deck)
     @coin_count = coin_count
-    @influence1 = @deck.get_random_influence()
-    @influence2 = @deck.get_random_influence()
+    @influence1 = deck.get_random_influence()
+    @influence2 = deck.get_random_influence()
   end
 
   def is_dead
@@ -208,11 +208,13 @@ end
 
 class Deck
   @cards
+
+  # create new deck
   def initialize()
-    # create new deck
-    @characters = Character.get_all_characters()
+    @cards = []
+    @characters = Character.new(0).get_all_characters()
     @characters.each do |character|
-      @cards.add(InfluenceCard.new(character)) * 3
+      @cards.push(InfluenceCard.new(character)) * 3
     end
   end
 
@@ -254,7 +256,7 @@ class Character
   def get_all_characters()
     characters = []
     @@character_map.each_with_index {|character_info, index|
-      characters += new Character(index)
+      characters.push(Character.new(index))
     }
     characters
   end
@@ -265,7 +267,8 @@ class InfluenceCard
   @active
 
   def initialize(character)
-    @character = characterr
+    @character = character
     @active = true
   end
 end
+Game.new()
