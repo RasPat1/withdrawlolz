@@ -70,7 +70,7 @@ class Game
       puts "Enter Y to counteract"
       counteraction = gets.strip
       puts "counteractor enter your id"
-      player_counteracting_id = gets.strip
+      counteracting_player_id = gets.strip
 
       if counteracting_player_id
         @counteracting_player = get_player_by_id(counteracting_player_id)
