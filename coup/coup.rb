@@ -150,40 +150,40 @@ class Action
   @action_id
   @target
   @@action_map = {
-    "0": {
-      description: "Take Income",
-      can_be_challenged: false,
-      can_be_countered: false
+    "0" => {
+      :description => "Take Income",
+      :can_be_challenged => false,
+      :can_be_countered => false
     },
-    "1": {
-      description: "Take Foreign Aid",
-      can_be_challenged: false,
-      can_be_countered: true
+    "1" => {
+      :description => "Take Foreign Aid",
+      :can_be_challenged => false,
+      :can_be_countered => true
     },
-    "2": {
-      description: "Stage a Coup",
-      can_be_challenged: false,
-      can_be_countered: true
+    "2" => {
+      :description => "Stage a Coup",
+      :can_be_challenged => false,
+      :can_be_countered => true
     },
-    "3": {
-      description: "Take Tax",
-      can_be_challenged: true,
-      can_be_countered: true
+    "3" => {
+      :description => "Take Tax",
+      :can_be_challenged => true,
+      :can_be_countered => true
     },
-    "4": {
-      description: "Assassinate",
-      can_be_challenged: true,
-      can_be_countered: true
+    "4" => {
+      :description => "Assassinate",
+      :can_be_challenged => true,
+      :can_be_countered => true
     },
-    "5": {
-      description: "Exchange",
-      can_be_challenged: true,
-      can_be_countered: true
+    "5" => {
+      :description => "Exchange",
+      :can_be_challenged => true,
+      :can_be_countered => true
     },
-    "6": {
-      description: "Steal",
-      can_be_challenged: true,
-      can_be_countered: true
+    "6" => {
+      :description => "Steal",
+      :can_be_challenged => true,
+      :can_be_countered => true
     }
   }
 
@@ -230,25 +230,25 @@ end
 class Character
   @character_id
   @@character_map = {
-    "0": {
-      name: "Duke",
-      action_id: 3
+    "0" => {
+      :name => "Duke",
+      :action_id => 3
     },
-    "1": {
-      name: "Assassin",
-      action_id: 4
+    "1" => {
+      :name => "Assassin",
+      :action_id => 4
     },
-    "2": {
-      name: "Ambassador",
-      action_id: 6
+    "2" => {
+      :name => "Ambassador",
+      :action_id => 6
     },
-    "3": {
-      name: "Contessa",
-      action_id: -1
+    "3" => {
+      :name => "Contessa",
+      :action_id => -1
     },
-    "4": {
-      name: "Captain",
-      action_id: 5
+    "4" => {
+      :name => "Captain",
+      :action_id => 5
     }
   }
 
