@@ -9,7 +9,7 @@
 class Game
   @player1
   @player2
-  @turn = 0
+  @@turn = 0
   @current_player
   @current_action
   @deck
@@ -41,6 +41,8 @@ class Game
 
     turn_over = false
     action_failed = false
+
+    @@turn += 1
 
     puts "#{@current_player} moves: #{@current_action}"
 
