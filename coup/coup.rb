@@ -194,7 +194,11 @@ class Action
   end
 
   def can_be_challenged?
-    @action_map[@action_id].can_be_challenged
+    @@action_map[@action_id][:can_be_challenged]
+  end
+
+  def can_be_countered?
+    @@action_map[@action_id][:can_be_countered]
   end
 
   def get_description
