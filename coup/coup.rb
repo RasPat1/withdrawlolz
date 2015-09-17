@@ -34,10 +34,11 @@ class Game
   # Make necessary modifications to player statuses
   # Go to next person's turn
   def turn()
-    turn = turn++
-    action_id = gets
-    target = gets
-    @current_action = new Action(action_id, target)
+    puts "player #{@current_player} what is your action"
+
+    action_id = gets.strip
+    target = gets.strip
+    @current_action = Action.new(action_id, target)
 
     turn_over = false
     action_failed = false
@@ -196,13 +197,13 @@ class Action
   end
 
   def get_description
-    @action_map[@action_id].description
+    @@action_map[@action_id][:description]
   end
 
-  def to_string
+  def to_s
     result = get_description
-    if @target > 0
-      result +=" on #{@target}"
+    if @target.length > 0
+      result = "#{result} on #{@target}"
     end
     result
   end
