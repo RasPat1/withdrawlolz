@@ -34,7 +34,7 @@ class Game
   # Make necessary modifications to player statuses
   # Go to next person's turn
   def turn()
-    puts "player #{@current_player} what is your action"
+    puts "#{@current_player} what is your action"
 
     action_id = gets.strip
     target = gets.strip
@@ -48,19 +48,21 @@ class Game
     puts "#{@current_player} moves: #{@current_action}"
 
     if (@current_action.can_be_challenged?)
-      puts "enter c to challenge"
+      puts "Enter Y to challenge"
       challenge = gets.strip
-      puts "challenger enter your id"
-      player_challenging_id = gets.strip
+      if challenge == 'Y'
+        puts "Challenger enter your id"
+        player_challenging_id = gets.strip
 
-      if (challenge && player_challenging_id)
-        if action.succeeds_on_challenge()
-          @player_challenging = get_player_by_id(player_challenging_id)
-          @player_challenging.loses_influence()
-          @current_player.swap_influence(@current_action)
-        else
-          @current_player.loses_influence
-          action_failed = true
+        if (challenge && player_challenging_id)
+          if @current_player.has_claimed_action_character?(@current_action)
+            @player_challenging = get_player_by_id(player_challenging_id)
+            @player_challenging.loses_influence
+            @current_player.swap_influence(@current_action, @deck)
+          else
+            @current_player.loses_influence
+            action_failed = true
+          end
         end
       end
       turn_over = true
@@ -77,9 +79,9 @@ class Game
         puts "Current player enter Y to challenge this counteraction"
         challenge_counteraction = gets.strip
         if challenge_counteraction
-          if @counteracting_player.has_claimed_counteraction_character(@current_action)
+          if @counteracting_player.has_claimed_counteraction_character?(@current_action)
             @current_player.loses_influence
-            @counteracting_player.swap_influence(@current_action)
+            @counteracting_player.swap_influence(@current_action, @deck)
           else
             @counteracting_player.loses_influence
           end
@@ -123,27 +125,65 @@ class Game
   end
 
   def get_player_by_id(id)
-    if id == 1
-      @player1
-    elsif id == 2
-      @player2
+    if id == "1"
+      player = @player1
+    elsif id == "2"
+      player = @player2
     end
+    player
   end
 end
 
 class Player
+  @id
   @coin_count
   @influence1
   @influence2
+  @@id_counter = 1
 
   def initialize(coin_count, deck)
     @coin_count = coin_count
-    @influence1 = deck.get_random_influence()
-    @influence2 = deck.get_random_influence()
+    @influence1 = deck.get_random_influence
+    @influence2 = deck.get_random_influence
+    @id = @@id_counter
+    @@id_counter += 1
   end
 
   def is_dead
-    !@influence1.active && !@influence2.active
+    !@influence1.active? && !@influence2.active?
+  end
+
+  def has_claimed_counteraction_character?(action)
+    @influence1.get_counteraction_id == action.get_id ||
+    @influence2.get_counteraction_id == action.get_id
+  end
+
+  def has_claimed_action_character?(action)
+    @influence1.get_action_id == action.get_id ||
+    @influence2.get_action_id == action.get_id
+  end
+
+  def swap_influence(action, deck)
+    if @influence1.get_action_id == action.get_id
+      deck.add_card(@influence1)
+      @influence1 = deck.get_random_influence
+    elsif @influence2.get_action_id == action.get_id
+      @influence1 = deck.get_random_influence
+    end
+  end
+
+  def loses_influence
+    puts "Choose a influence card to reveal. Enter 1 or 2"
+    card_to_flip = gets.strip
+    if (card_to_flip == "1")
+      @influence1.reveal_card
+    elsif card_to_flip == "2"
+      @influence2.reveal_card
+    end
+  end
+
+  def to_s
+    "Player #{@id}"
   end
 end
 
@@ -205,6 +245,14 @@ class Action
     @@action_map[@action_id][:description]
   end
 
+  def succeed
+
+  end
+
+  def get_id
+    @action_id
+  end
+
   def to_s
     result = get_description
     if @target.length > 0
@@ -226,34 +274,44 @@ class Deck
     end
   end
 
-  def get_random_influence()
+  def get_random_influence
     @cards.shuffle!
     @cards.pop
   end
+
+  def add_card(influence_card)
+    @cards.push(influence_card)
+  end
+
 end
 
 class Character
   @character_id
   @@character_map = {
-    "0" => {
+    0 => {
       :name => "Duke",
-      :action_id => 3
+      :action_id => "3",
+      :counteract_action_id => "1"
     },
-    "1" => {
+    1 => {
       :name => "Assassin",
-      :action_id => 4
+      :action_id => "4",
+      :counteract_action_id => "-1"
     },
-    "2" => {
+    2 => {
       :name => "Ambassador",
-      :action_id => 6
+      :action_id => "6",
+      :counteract_action_id => "2"
     },
-    "3" => {
+    3 => {
       :name => "Contessa",
-      :action_id => -1
+      :action_id => "-1",
+      :counteract_action_id => "4"
     },
-    "4" => {
+    4 => {
       :name => "Captain",
-      :action_id => 5
+      :action_id => "5",
+      :counteract_action_id => "2"
     }
   }
 
@@ -268,6 +326,18 @@ class Character
     }
     characters
   end
+
+  def get_counteraction_id
+    get_characer_data[:counteract_action_id]
+  end
+
+  def get_action_id
+    get_characer_data[:action_id]
+  end
+
+  def get_characer_data
+    @@character_map[@character_id]
+  end
 end
 
 class InfluenceCard
@@ -277,6 +347,22 @@ class InfluenceCard
   def initialize(character)
     @character = character
     @active = true
+  end
+
+  def get_counteraction_id
+    @character.get_counteraction_id
+  end
+
+  def get_action_id
+    @character.get_action_id
+  end
+
+  def reveal_card
+    @active = false
+  end
+
+  def active?
+    return @active
   end
 end
 Game.new()
