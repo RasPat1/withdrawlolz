@@ -181,11 +181,17 @@ class Player
   end
 
   def loses_influence
-    puts "Choose a influence card to reveal. Enter 1 or 2"
-    card_to_flip = gets.strip
-    if (card_to_flip == "1")
+    if @influence1.active? && @influence2.active?
+      puts "Choose a influence card to reveal. Enter 1 or 2"
+      card_to_flip = gets.strip
+      if (card_to_flip == "1")
+        @influence1.reveal_card
+      elsif card_to_flip == "2"
+        @influence2.reveal_card
+      end
+    elsif @influence1.active?
       @influence1.reveal_card
-    elsif card_to_flip == "2"
+    elsif @influence2.active?
       @influence2.reveal_card
     end
   end
