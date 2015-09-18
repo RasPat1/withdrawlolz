@@ -316,7 +316,7 @@ class Action
         card_ids += card.get_id
       end
       puts card_ids.join("\n")
-      puts "which cards do you want?"
+      puts "Which cards do you want?"
       new_card1
       while new_card1 == null
         card_id = gets.trim
