@@ -69,24 +69,26 @@ class Game
     if (!turn_over && @current_action.can_be_countered?)
       puts "Enter Y to counteract"
       counteraction = gets.strip
-      puts "counteractor enter your id"
-      counteracting_player_id = gets.strip
 
-      if counteracting_player_id
-        @counteracting_player = get_player_by_id(counteracting_player_id)
-        puts "Current player enter Y to challenge this counteraction"
-        challenge_counteraction = gets.strip
-        if challenge_counteraction
-          if @counteracting_player.has_claimed_counteraction_character?(@current_action)
-            @current_player.loses_influence
-            @counteracting_player.swap_influence(@current_action, @deck)
+      if counteraction == 'Y'
+        puts "counteractor enter your id"
+        counteracting_player_id = gets.strip
+        if counteracting_player_id
+          @counteracting_player = get_player_by_id(counteracting_player_id)
+          puts "Current player enter Y to challenge this counteraction"
+          challenge_counteraction = gets.strip
+          if challenge_counteraction
+            if @counteracting_player.has_claimed_counteraction_character?(@current_action)
+              @current_player.loses_influence
+              @counteracting_player.swap_influence(@current_action, @deck)
+            else
+              @counteracting_player.loses_influence
+            end
+            turn_over = true
           else
-            @counteracting_player.loses_influence
+            turn_over = true
+            action_failed = true
           end
-          turn_over = true
-        else
-          turn_over = true
-          action_failed = true
         end
       end
     end
