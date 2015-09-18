@@ -109,11 +109,11 @@ class Game
   end
 
   def is_game_over()
-    @player1.is_dead || @player2.is_dead
+    @player1.is_dead? || @player2.is_dead?
   end
 
   def get_winner()
-    @player1.is_dead ? @player2 : @player1
+    @player1.is_dead? ? @player2 : @player1
   end
 
   def next_player()
@@ -149,7 +149,7 @@ class Player
     @@id_counter += 1
   end
 
-  def is_dead
+  def is_dead?
     !@influence1.active? && !@influence2.active?
   end
 
