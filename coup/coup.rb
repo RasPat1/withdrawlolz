@@ -94,7 +94,7 @@ class Game
     end
 
     if !action_failed
-      @current_action.succeed
+      @current_action.succeed(@current_player, @current_action, @deck)
     end
 
     next_player()
@@ -149,6 +149,14 @@ class Player
     @@id_counter += 1
   end
 
+  def set_card(card_num, card)
+    if card_num == 1
+      @influence1 = card
+    elsif card_num == 2
+      @influence2 = card
+    end
+  end
+
   def is_dead?
     !@influence1.active? && !@influence2.active?
   end
@@ -182,6 +190,26 @@ class Player
     end
   end
 
+  def add_coin(amount)
+    @coin_count += amount
+  end
+
+  def get_coin_count
+    @coin_count
+  end
+
+  def get_active_character_cards
+    active_cards = []
+    if @influence1.active?
+      active_cards.push @influence1
+    end
+
+    if @influence1.active?
+      active_cards.push @influence2
+    end
+    active_cards
+  end
+
   def to_s
     "Player #{@id}"
   end
@@ -204,7 +232,8 @@ class Action
     "2" => {
       :description => "Stage a Coup",
       :can_be_challenged => false,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :prompt => "Who do you want ot stage a coup on?"
     },
     "3" => {
       :description => "Take Tax",
@@ -214,17 +243,20 @@ class Action
     "4" => {
       :description => "Assassinate",
       :can_be_challenged => true,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :prompt => "Who do you want to assasinate?"
     },
     "5" => {
       :description => "Exchange",
       :can_be_challenged => true,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :prompt => "Which characters do you want to keep?"
     },
     "6" => {
       :description => "Steal",
       :can_be_challenged => true,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :prompt => "Who do you want to steal from?"
     }
   }
 
@@ -245,9 +277,104 @@ class Action
     @@action_map[@action_id][:description]
   end
 
-  def succeed
-
+  def get_prompt
+    prompt = get_characer_data[:prompt]
+    if prompt != null
+      prompt
+    end
   end
+
+  def succeed(current_player, current_action, deck)
+    if current_action.get_id == "0" #Income
+      current_player.add_coin(1)
+    elsif current_action.get_id == "1" #Foreign aid
+      current_player.add_coin(2)
+    elsif current_action.get_id == "2" #Coup
+      target_player = Player.get_player_by_id(@target)
+      current_player.add_coin(-7)
+      target_player.loses_influence
+    elsif current_action.get_id == "3" #Tax
+      current_player.add_coin(3)
+    elsif current_action.get_id == "4" #Assasinate
+      target_player = Player.get_player_by_id(@target)
+      current_player.add_coin(-3)
+      target_player.loses_influence
+    elsif current_action.get_id == "5" #Exchange
+      temporary_cards = [deck.get_random_influence, deck.get_random_influence]
+      show_cards(temporary_cards)
+      @card1_id = gets.trim
+      puts "The other?"
+      @card2_id = gets.trim
+      card_ids = temporary_cards[0].get_id + temporary_cards[1].get_id
+      active_cards = get_active_character_cards
+      original_active_card_count = active_cards.size
+      active_cards.each do |card|
+        card_ids += card.get_id
+      end
+      puts card_ids.join("\n")
+      puts "which cards do you want?"
+      new_card1
+      while new_card1 == null
+        card_id = gets.trim
+        if card_ids.include? card_id
+          if temporary_cards[0] && temporary_cards[0].get_id == card_id
+            new_card1 = temporary_cards[0]
+            temporary_cards.delete_at(0)
+          elsif temporary_cards[1] && temporary_cards[1].get_id == card_id
+            new_card1 = temporary_cards[1]
+            temporary_cards.delete_at(1)
+          elsif active_cards[0] && active_cards[0].get_id == card_id
+            new_card1 = active_cards[0]
+            active_cards.delete_at(0)
+          else active_cards[1] && active_cards[1].get_id == card_id
+            new_card1 = active_cards[1]
+            active_cards.delete_at(1)
+          end
+        end
+      end
+      new_card1_id = new_card1.get_id
+      card_ids.delete_at(card_ids.index(new_card1_id))
+      if (original_active_card_count > 1)
+        while new_card2 == null
+          card_id = gets.trim
+          if card_ids.include? card_id
+            if temporary_cards[0] && temporary_cards[0].get_id == card_id
+              new_card2 = temporary_cards[0]
+              temporary_cards.delete_at(0)
+            elsif temporary_cards[1] && temporary_cards[1].get_id == card_id
+              new_card2 = temporary_cards[1]
+              temporary_cards.delete_at(1)
+            elsif active_cards[0] && active_cards[0].get_id == card_id
+              new_card2 = active_cards[0]
+              active_cards.delete_at(0)
+            else active_cards[1] && active_cards[1].get_id == card_id
+              new_card2 = active_cards[1]
+              active_cards.delete_at(1)
+            end
+          end
+        end
+      end
+
+      cards_to_reinsert = active_cards + temporary_cards
+      cards_to_reinsert.each do |card|
+        deck.add_card(card)
+      end
+
+      current_player.set_card(1, new_card1)
+      if new_card2
+        current_player.set_card(2, new_card2)
+      end
+    elsif current_action.get_id == "6" #Steal
+      if target_player.get_coin_count > 1
+        current_player.add_coin(2)
+        target_player.add_coin(-2)
+      elsif target_player.get_coin_count == 1
+        target_player.add_coin(-1)
+        target_player.add_coin(1)
+      end
+    end
+  end
+
 
   def get_id
     @action_id
@@ -260,29 +387,6 @@ class Action
     end
     result
   end
-end
-
-class Deck
-  @cards
-
-  # create new deck
-  def initialize()
-    @cards = []
-    @characters = Character.new(0).get_all_characters()
-    @characters.each do |character|
-      @cards.push(InfluenceCard.new(character)) * 3
-    end
-  end
-
-  def get_random_influence
-    @cards.shuffle!
-    @cards.pop
-  end
-
-  def add_card(influence_card)
-    @cards.push(influence_card)
-  end
-
 end
 
 class Character
@@ -327,6 +431,10 @@ class Character
     characters
   end
 
+  def get_id
+    @character_id
+  end
+
   def get_counteraction_id
     get_characer_data[:counteract_action_id]
   end
@@ -364,5 +472,34 @@ class InfluenceCard
   def active?
     return @active
   end
+
+  def get_id
+    @character.get_id
+  end
 end
+
+
+class Deck
+  @cards
+
+  # create new deck
+  def initialize()
+    @cards = []
+    @characters = Character.new(0).get_all_characters()
+    @characters.each do |character|
+      @cards.push(InfluenceCard.new(character)) * 3
+    end
+  end
+
+  def get_random_influence
+    @cards.shuffle!
+    @cards.pop
+  end
+
+  def add_card(influence_card)
+    @cards.push(influence_card)
+  end
+
+end
+
 Game.new()
