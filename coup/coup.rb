@@ -32,6 +32,7 @@ class Game
   # Make necessary modifications to player statuses
   # Go to next person's turn
   def turn()
+    @current_player.show_cards
     puts "#{@current_player} what is your action"
 
     action_id = gets.strip
@@ -216,6 +217,15 @@ class Player
     active_cards
   end
 
+  def show_cards
+    if @influence1.active?
+      puts @influence1.card_info
+    end
+    if @influence2.active?
+      puts @influence2.card_info
+    end
+  end
+
   def to_s
     "Player #{@id}"
   end
@@ -381,7 +391,6 @@ class Action
     end
   end
 
-
   def get_id
     @action_id
   end
@@ -449,7 +458,7 @@ class Character
     get_characer_data[:action_id]
   end
 
-  def get_characer_data
+  def get_character_data
     @@character_map[@character_id]
   end
 end
@@ -481,6 +490,11 @@ class InfluenceCard
 
   def get_id
     @character.get_id
+  end
+
+  def card_info
+    data = @character.get_character_data
+    data[:name]
   end
 end
 
