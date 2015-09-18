@@ -20,9 +20,7 @@ class Game
     @player2 = Player.new(2, @deck)
     @current_player = @player1
 
-    while true do
-      turn()
-    end
+    turn()
   end
 
 
