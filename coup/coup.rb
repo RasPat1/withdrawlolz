@@ -33,6 +33,7 @@ class Game
   # Go to next person's turn
   def turn()
     @current_player.show_cards
+    puts Action.show_all_actions.join "\n"
     puts "#{@current_player} what is your action"
 
     action_id = gets.strip
@@ -295,7 +296,7 @@ class Action
 
   def get_prompt
     prompt = get_characer_data[:prompt]
-    if prompt != null
+    if prompt != nil
       prompt
     end
   end
@@ -330,7 +331,7 @@ class Action
       puts card_ids.join("\n")
       puts "Which cards do you want?"
       new_card1
-      while new_card1 == null
+      while new_card1 == nil
         card_id = gets.trim
         if card_ids.include? card_id
           if temporary_cards[0] && temporary_cards[0].get_id == card_id
@@ -351,7 +352,7 @@ class Action
       new_card1_id = new_card1.get_id
       card_ids.delete_at(card_ids.index(new_card1_id))
       if (original_active_card_count > 1)
-        while new_card2 == null
+        while new_card2 == nil
           card_id = gets.trim
           if card_ids.include? card_id
             if temporary_cards[0] && temporary_cards[0].get_id == card_id
@@ -393,6 +394,14 @@ class Action
 
   def get_id
     @action_id
+  end
+
+  def self.show_all_actions
+    action_list = []
+    @@action_map.each_with_index do |index, action_info|
+      action_list.push "#{index[0]} -- #{index[1][:description]}"
+    end
+    action_list
   end
 
   def to_s
@@ -440,9 +449,9 @@ class Character
 
   def get_all_characters()
     characters = []
-    @@character_map.each_with_index {|character_info, index|
+    @@character_map.each_with_index do |character_info, index|
       characters.push(Character.new(index))
-    }
+    end
     characters
   end
 
