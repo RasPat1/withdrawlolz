@@ -32,7 +32,7 @@ class Game
   # Make necessary modifications to player statuses
   # Go to next person's turn
   def turn()
-    @current_player.show_cards
+    @current_player.get_active_cards
     puts Action.show_all_actions.join "\n"
     puts "#{@current_player} what is your action"
 
@@ -218,7 +218,7 @@ class Player
     active_cards
   end
 
-  def show_cards
+  def get_active_cards
     if @influence1.active?
       puts @influence1.card_info
     end
@@ -295,7 +295,7 @@ class Action
   end
 
   def get_prompt
-    prompt = get_characer_data[:prompt]
+    prompt = get_character_data[:prompt]
     if prompt != nil
       prompt
     end
@@ -318,7 +318,7 @@ class Action
       target_player.loses_influence
     elsif current_action.get_id == "5" #Exchange
       temporary_cards = [deck.get_random_influence, deck.get_random_influence]
-      show_cards(temporary_cards)
+      get_active_cards(temporary_cards)
       @card1_id = gets.trim
       puts "The other?"
       @card2_id = gets.trim
@@ -460,11 +460,11 @@ class Character
   end
 
   def get_counteraction_id
-    get_characer_data[:counteract_action_id]
+    get_character_data[:counteract_action_id]
   end
 
   def get_action_id
-    get_characer_data[:action_id]
+    get_character_data[:action_id]
   end
 
   def get_character_data
