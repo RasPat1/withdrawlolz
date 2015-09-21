@@ -40,12 +40,13 @@ class Game
     action_id = gets.strip
     current_action = Action.new(action_id)
     if current_action.requires_target
-      while target_player && target_player != current_player
+      target_player = nil
+      while target_player == nil || target_player == @current_player
         puts "Select a target"
         target_id = gets.strip
-        target_player = Player.get_player_by_id(target_id)
+        target_player = get_player_by_id(target_id)
       end
-      current_action.set_target = target_player
+      current_action.set_target(target_player)
     end
 
     turn_over = false
@@ -300,8 +301,12 @@ class Action
     @action_id = action_id
   end
 
-  def set_target
+  def set_target(target_player)
     @target_player = target_player
+  end
+
+  def get_target
+    @target_player
   end
 
   def can_be_challenged?
@@ -358,6 +363,7 @@ class Action
       end
       puts card_ids.join("\n")
       puts "Which cards do you want?"
+      new_card1
       while new_card1 == nil
         card_id = gets.trim
         if card_ids.include? card_id
