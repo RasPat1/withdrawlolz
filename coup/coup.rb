@@ -32,7 +32,8 @@ class Game
   # Make necessary modifications to player statuses
   # Go to next person's turn
   def turn()
-    @current_player.get_active_cards
+    puts "Coins: #{@current_player.get_coin_count}"
+    @current_player.show_active_cards
     puts Action.show_all_actions.join "\n"
     puts "#{@current_player} what is your action"
 
@@ -225,7 +226,7 @@ class Player
     active_cards
   end
 
-  def get_active_cards
+  def show_active_cards
     if @influence1.active?
       puts @influence1.card_info
     end
@@ -350,10 +351,6 @@ class Action
       end
     elsif current_action.get_id == "5" #Exchange
       temporary_cards = [deck.get_random_influence, deck.get_random_influence]
-      get_active_cards(temporary_cards)
-      @card1_id = gets.trim
-      puts "The other?"
-      @card2_id = gets.trim
       card_ids = temporary_cards[0].get_id + temporary_cards[1].get_id
       active_cards = get_active_character_cards
       original_active_card_count = active_cards.size
@@ -362,7 +359,6 @@ class Action
       end
       puts card_ids.join("\n")
       puts "Which cards do you want?"
-      new_card1
       while new_card1 == nil
         card_id = gets.trim
         if card_ids.include? card_id
