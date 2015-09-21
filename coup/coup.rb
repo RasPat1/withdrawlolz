@@ -277,7 +277,7 @@ class Action
       :description => "Assassinate",
       :can_be_challenged => true,
       :can_be_countered => true,
-      :requires_target => false,
+      :requires_target => true,
       :prompt => "Who do you want to assasinate?"
     },
     "5" => {
@@ -291,7 +291,7 @@ class Action
       :description => "Steal",
       :can_be_challenged => true,
       :can_be_countered => true,
-      :requires_target => false,
+      :requires_target => true,
       :prompt => "Who do you want to steal from?"
     }
   }
