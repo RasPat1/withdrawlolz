@@ -333,14 +333,21 @@ class Action
       current_player.add_coin(2)
     elsif current_action.get_id == "2" #Coup
       target_player = @target_player
-      current_player.add_coin(-7)
-      target_player.loses_influence
+      if current_player.get_coin_count >= 7
+        current_player.add_coin(-7)
+        target_player.loses_influence
+      else
+        puts "Not enough coins.. Lose your turn for being dumb"
+      end
     elsif current_action.get_id == "3" #Tax
       current_player.add_coin(3)
     elsif current_action.get_id == "4" #Assasinate
-      target_player = @target_player
-      current_player.add_coin(-3)
-      target_player.loses_influence
+      if current_player.get_coin_count >= 3
+        current_player.add_coin(-3)
+        target_player.loses_influence
+      else
+        puts "Asssasination fails. Not enough coins.. Lose your turn for being dumb"
+      end
     elsif current_action.get_id == "5" #Exchange
       temporary_cards = [deck.get_random_influence, deck.get_random_influence]
       get_active_cards(temporary_cards)
