@@ -37,17 +37,24 @@ class Game
     puts "#{@current_player} what is your action"
 
     action_id = gets.strip
-    target = gets.strip
-    @current_action = Action.new(action_id, target)
+    current_action = Action.new(action_id)
+    if current_action.requires_target
+      while target_player && target_player != current_player
+        puts "Select a target"
+        target_id = gets.strip
+        target_player = Player.get_player_by_id(target_id)
+      end
+      current_action.set_target = target_player
+    end
 
     turn_over = false
     action_failed = false
 
     @@turn += 1
 
-    puts "#{@current_player} moves: #{@current_action}"
+    puts "#{@current_player} moves: #{current_action}"
 
-    if (@current_action.can_be_challenged?)
+    if (current_action.can_be_challenged?)
       puts "Enter Y to challenge"
       challenge = gets.strip
       if challenge == 'Y'
@@ -55,10 +62,10 @@ class Game
         player_challenging_id = gets.strip
 
         if (challenge && player_challenging_id)
-          if @current_player.has_claimed_action_character?(@current_action)
+          if @current_player.has_claimed_action_character?(current_action)
             @player_challenging = get_player_by_id(player_challenging_id)
             @player_challenging.loses_influence
-            @current_player.swap_influence(@current_action, @deck)
+            @current_player.swap_influence(current_action, @deck)
           else
             @current_player.loses_influence
             action_failed = true
@@ -68,7 +75,7 @@ class Game
       turn_over = true
     end
 
-    if (!turn_over && @current_action.can_be_countered?)
+    if (!turn_over && current_action.can_be_countered?)
       puts "Enter Y to counteract"
       counteraction = gets.strip
 
@@ -80,9 +87,9 @@ class Game
           puts "Current player enter Y to challenge this counteraction"
           challenge_counteraction = gets.strip
           if challenge_counteraction
-            if @counteracting_player.has_claimed_counteraction_character?(@current_action)
+            if @counteracting_player.has_claimed_counteraction_character?(current_action)
               @current_player.loses_influence
-              @counteracting_player.swap_influence(@current_action, @deck)
+              @counteracting_player.swap_influence(current_action, @deck)
             else
               @counteracting_player.loses_influence
             end
@@ -96,7 +103,7 @@ class Game
     end
 
     if !action_failed
-      @current_action.succeed(@current_player, @current_action, @deck)
+      current_action.succeed(@current_player, current_action, @deck)
     end
 
     next_player()
@@ -227,6 +234,10 @@ class Player
     end
   end
 
+  def get_id
+    @id
+  end
+
   def to_s
     "Player #{@id}"
   end
@@ -234,52 +245,62 @@ end
 
 class Action
   @action_id
-  @target
+  @target_player
   @@action_map = {
     "0" => {
       :description => "Take Income",
       :can_be_challenged => false,
-      :can_be_countered => false
+      :can_be_countered => false,
+      :requires_target => false
     },
     "1" => {
       :description => "Take Foreign Aid",
       :can_be_challenged => false,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :requires_target => false
     },
     "2" => {
       :description => "Stage a Coup",
       :can_be_challenged => false,
-      :can_be_countered => true,
-      :prompt => "Who do you want ot stage a coup on?"
+      :can_be_countered => false,
+      :requires_target => true,
+      :prompt => "Who do you want to stage a coup on?"
     },
     "3" => {
       :description => "Take Tax",
       :can_be_challenged => true,
-      :can_be_countered => true
+      :can_be_countered => true,
+      :requires_target => false
     },
     "4" => {
       :description => "Assassinate",
       :can_be_challenged => true,
       :can_be_countered => true,
+      :requires_target => false,
       :prompt => "Who do you want to assasinate?"
     },
     "5" => {
       :description => "Exchange",
       :can_be_challenged => true,
-      :can_be_countered => true,
+      :can_be_countered => false,
+      :requires_target => false,
       :prompt => "Which characters do you want to keep?"
     },
     "6" => {
       :description => "Steal",
       :can_be_challenged => true,
       :can_be_countered => true,
+      :requires_target => false,
       :prompt => "Who do you want to steal from?"
     }
   }
 
-  def initialize(action_id, target)
+  def initialize(action_id)
     @action_id = action_id
-    @target = target
+  end
+
+  def set_target
+    @target_player = target_player
   end
 
   def can_be_challenged?
@@ -301,19 +322,23 @@ class Action
     end
   end
 
+  def requires_target
+    @@action_map[@action_id][:requires_target]
+  end
+
   def succeed(current_player, current_action, deck)
     if current_action.get_id == "0" #Income
       current_player.add_coin(1)
     elsif current_action.get_id == "1" #Foreign aid
       current_player.add_coin(2)
     elsif current_action.get_id == "2" #Coup
-      target_player = Player.get_player_by_id(@target)
+      target_player = @target_player
       current_player.add_coin(-7)
       target_player.loses_influence
     elsif current_action.get_id == "3" #Tax
       current_player.add_coin(3)
     elsif current_action.get_id == "4" #Assasinate
-      target_player = Player.get_player_by_id(@target)
+      target_player = @target_player
       current_player.add_coin(-3)
       target_player.loses_influence
     elsif current_action.get_id == "5" #Exchange
@@ -406,8 +431,8 @@ class Action
 
   def to_s
     result = get_description
-    if @target.length > 0
-      result = "#{result} on #{@target}"
+    if @target_player
+      result = "#{result} on #{@target_player}"
     end
     result
   end
