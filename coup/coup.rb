@@ -333,10 +333,9 @@ class Action
     elsif current_action.get_id == "1" #Foreign aid
       current_player.add_coin(2)
     elsif current_action.get_id == "2" #Coup
-      target_player = @target_player
       if current_player.get_coin_count >= 7
         current_player.add_coin(-7)
-        target_player.loses_influence
+        @target_player.loses_influence
       else
         puts "Not enough coins.. Lose your turn for being dumb"
       end
@@ -345,7 +344,7 @@ class Action
     elsif current_action.get_id == "4" #Assasinate
       if current_player.get_coin_count >= 3
         current_player.add_coin(-3)
-        target_player.loses_influence
+        @target_player.loses_influence
       else
         puts "Asssasination fails. Not enough coins.. Lose your turn for being dumb"
       end
@@ -410,12 +409,12 @@ class Action
         current_player.set_card(2, new_card2)
       end
     elsif current_action.get_id == "6" #Steal
-      if target_player.get_coin_count > 1
+      if @target_player.get_coin_count > 1
         current_player.add_coin(2)
-        target_player.add_coin(-2)
-      elsif target_player.get_coin_count == 1
-        target_player.add_coin(-1)
-        target_player.add_coin(1)
+        @target_player.add_coin(-2)
+      elsif @target_player.get_coin_count == 1
+        @target_player.add_coin(-1)
+        @target_player.add_coin(1)
       end
     end
   end
