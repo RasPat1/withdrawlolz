@@ -82,7 +82,7 @@ class Game
       counteraction = gets.strip
 
       if counteraction == 'Y'
-        puts "counteractor enter your id"
+        puts "Counteractor enter your id"
         counteracting_player_id = gets.strip
         if counteracting_player_id
           @counteracting_player = get_player_by_id(counteracting_player_id)
@@ -112,7 +112,7 @@ class Game
 
     if is_game_over()
       puts "game over"
-      puts get_winner
+      puts "#{get_winner} wins"
     else
       turn()
     end
@@ -193,7 +193,7 @@ class Player
 
   def loses_influence
     if @influence1.active? && @influence2.active?
-      puts "Choose a influence card to reveal. Enter 1 or 2"
+      puts "#{self} choose an influence card to reveal. Enter 1 or 2"
       card_to_flip = gets.strip
       if (card_to_flip == "1")
         @influence1.reveal_card
