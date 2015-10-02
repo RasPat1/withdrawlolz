@@ -24,7 +24,7 @@ class Game
   end
 
 
-  # Ask player for action, target (is there action against another player)
+  # Ask player for action and target (is there action against another player)
   # If no target ask for any player to challenge or counteraction.
     # Enter player number(name), challenge, or character they are counter actioning with
   # If target ask that player if they want to challenge or counteraction
