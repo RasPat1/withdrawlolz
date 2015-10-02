@@ -35,9 +35,15 @@ class Game
     puts "Coins: #{@current_player.get_coin_count}"
     @current_player.show_active_cards
     puts Action.show_all_actions.join "\n"
-    puts "#{@current_player} what is your action"
 
-    action_id = gets.strip
+    # If a player ahs more than 10 coins he must stage a coup
+    if (@current_player.get_coin_count > 10)
+      action_id = "2"
+    else
+      puts "#{@current_player} what is your action"
+      action_id = gets.strip
+    end
+
     current_action = Action.new(action_id)
     if current_action.requires_target
       target_player = nil
