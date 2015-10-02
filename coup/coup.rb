@@ -354,58 +354,39 @@ class Action
         puts "Asssasination fails. Not enough coins.. Lose your turn for being dumb"
       end
     elsif current_action.get_id == "5" #Exchange
-      temporary_cards = [deck.get_random_influence, deck.get_random_influence]
-      card_ids = temporary_cards[0].get_id + temporary_cards[1].get_id
-      active_cards = get_active_character_cards
-      original_active_card_count = active_cards.size
+      # Get 2 random cards from the deck
+      # Print num -- card type for all cards
+      # Read num once
+      # if player ahs 2 cards read num twice -- block repeats
+      # Pick 1 card if you have one card, 2 if you have 2
+      # 
+      card_map = [deck.get_random_influence, deck.get_random_influence]
+      
+      active_cards = current_player.get_active_character_cards
       active_cards.each do |card|
-        card_ids += card.get_id
-      end
-      puts card_ids.join("\n")
-      puts "Which cards do you want?"
-      new_card1
-      while new_card1 == nil
-        card_id = gets.trim
-        if card_ids.include? card_id
-          if temporary_cards[0] && temporary_cards[0].get_id == card_id
-            new_card1 = temporary_cards[0]
-            temporary_cards.delete_at(0)
-          elsif temporary_cards[1] && temporary_cards[1].get_id == card_id
-            new_card1 = temporary_cards[1]
-            temporary_cards.delete_at(1)
-          elsif active_cards[0] && active_cards[0].get_id == card_id
-            new_card1 = active_cards[0]
-            active_cards.delete_at(0)
-          else active_cards[1] && active_cards[1].get_id == card_id
-            new_card1 = active_cards[1]
-            active_cards.delete_at(1)
-          end
-        end
-      end
-      new_card1_id = new_card1.get_id
-      card_ids.delete_at(card_ids.index(new_card1_id))
-      if (original_active_card_count > 1)
-        while new_card2 == nil
-          card_id = gets.trim
-          if card_ids.include? card_id
-            if temporary_cards[0] && temporary_cards[0].get_id == card_id
-              new_card2 = temporary_cards[0]
-              temporary_cards.delete_at(0)
-            elsif temporary_cards[1] && temporary_cards[1].get_id == card_id
-              new_card2 = temporary_cards[1]
-              temporary_cards.delete_at(1)
-            elsif active_cards[0] && active_cards[0].get_id == card_id
-              new_card2 = active_cards[0]
-              active_cards.delete_at(0)
-            else active_cards[1] && active_cards[1].get_id == card_id
-              new_card2 = active_cards[1]
-              active_cards.delete_at(1)
-            end
-          end
-        end
+        card_map.push(card)
       end
 
-      cards_to_reinsert = active_cards + temporary_cards
+      count = 0
+      card_map.each do |card|
+        puts "#{count} -- #{card}"
+        count += 1
+      end
+
+      new_card1 = get_card_from_user(card_map)
+      card_map.delete(new_card1)
+
+      count = 0
+      card_map.each do |card|
+        puts "#{count} -- #{card}"
+        count += 1
+      end
+
+      if active_cards.size == 2
+        new_card2 = get_card_from_user(card_map)
+      end
+
+      cards_to_reinsert = card_map
       cards_to_reinsert.each do |card|
         deck.add_card(card)
       end
@@ -427,6 +408,16 @@ class Action
 
   def get_id
     @action_id
+  end
+
+  def get_card_from_user(card_map)
+    puts "Enter a card to keep?"
+    new_card = nil
+    while new_card == nil
+      card_index = gets.strip
+      new_card = card_map[card_index.to_i]
+    end
+    new_card
   end
 
   def self.show_all_actions
@@ -538,6 +529,10 @@ class InfluenceCard
     data = @character.get_character_data
     data[:name]
   end
+
+  def to_s
+    card_info
+  end
 end
 
 
@@ -549,7 +544,9 @@ class Deck
     @cards = []
     @characters = Character.new(0).get_all_characters()
     @characters.each do |character|
-      @cards.push(InfluenceCard.new(character)) * 3
+      3.times do
+        @cards.push(InfluenceCard.new(character))
+      end
     end
   end
 
