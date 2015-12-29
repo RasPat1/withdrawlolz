@@ -3,18 +3,19 @@ import java.util.Random;
 class Card {
   CardImage[] images;
   Integer imageCount = 0;
+  Integer imagesPerCard;
 
-  static Integer defaultSlots = 4;
 
-  public Card() {
-    this.images = new CardImage[4];
+  public Card(int imagesPerCard) {
+    this.images = new CardImage[imagesPerCard];
     this.imageCount = 0;
+    this.imagesPerCard = imagesPerCard;
   }
 
-  public static Card getRandomCard() {
-    Card card = new Card();
+  public static Card getRandomCard(int imagesPerCard) {
+    Card card = new Card(imagesPerCard);
 
-    for (int i = 0; i < defaultSlots; i++) {
+    for (int i = 0; i < imagesPerCard; i++) {
       Boolean added = false;
       while (!added) {
         added = card.addImage(CardImage.getRandomImage());
@@ -57,7 +58,7 @@ class Card {
   public String toString() {
     StringBuffer cardString = new StringBuffer();
 
-    for (int i = 0; i < this.defaultSlots; i++) {
+    for (int i = 0; i < this.images.length; i++) {
       if (i != 0) {
         cardString.append(" ");
       }

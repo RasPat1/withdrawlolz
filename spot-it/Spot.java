@@ -7,7 +7,7 @@ class Spot {
   public static void  main(String args[]) {
     Long startTime = System.currentTimeMillis();
 
-    Deck goodDeck = createValidDeck(6);
+    Deck goodDeck = createValidDeck(6, 4);
     Boolean isGoodDeck = testDeck(goodDeck);
 
     Long endTime = System.currentTimeMillis();
@@ -24,14 +24,18 @@ class Spot {
 
   }
 
-  public static Deck createValidDeck(int deckSize) {
+  public static Deck createValidDeck(int deckSize, int imagesPerCard) {
     Boolean isGoodDeck = false;
     Deck deck = null;
+    int deckCount = 0;
 
     while (!isGoodDeck) {
-      deck = Deck.createRandomDeck(deckSize);
+      deck = Deck.createRandomDeck(deckSize, imagesPerCard);
       isGoodDeck = testDeck(deck);
+      deckCount++;
     }
+
+    System.out.println(deckCount + " decks created.");
 
     return deck;
   }
