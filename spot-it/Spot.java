@@ -4,6 +4,7 @@
 **/
 
 import java.util.ArrayList;
+import java.util.Date;
 
 class Spot {
   public static void  main(String args[]) {
@@ -18,23 +19,25 @@ class Spot {
   *
   **/
   public static void testingSuite() {
+    System.out.println(new Date());
     ArrayList<Stat> stats = new ArrayList<Stat>();
 
-    testWrapper(6, 4, 5, stats);
+    testWrapper(6, 4, 1, stats);
     // testWrapper(6, 5, 5, stats);
     // testWrapper(6, 6, 5, stats);
-    // testWrapper(7, 4, 2, stats);
+//    testWrapper(7, 4, 5, stats);
     // testWrapper(7, 5, 5, stats);
     // testWrapper(7, 6, 5, stats);
     // testWrapper(7, 7, 5, stats);
     // testWrapper(8, 4, 5, stats);
     // testWrapper(8, 5, 5, stats);
-    // testWrapper(8, 6, 5, stats);
+//    testWrapper(8, 6, 5, stats);
     // testWrapper(8, 7, 5, stats);
     // testWrapper(8, 8, 5, stats);
+    // testWrapper(9, 4, 5, stats);
     // testWrapper(9, 5, 5, stats);
     // testWrapper(9, 7, 5, stats);
-    // testWrapper(9, 9, 5, stats);
+//    testWrapper(9, 9, 5, stats);
 
     Long totalTimeTaken = 0L;
     Long totalDecksBuilt = 0L;
@@ -83,6 +86,7 @@ class Spot {
       stat.successfulTrial();
     }
 
+    System.out.println(deck);
 
     return deck;
   }

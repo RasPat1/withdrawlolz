@@ -1,0 +1,25 @@
+Tue Dec 29 05:02:22 EST 2015
+deckSize:6
+imagesPerCard:4
+timeTaken:321
+decksBuilt:279930
+cardsBuilt:1679581
+trials:5
+successfulTrials:5
+
+deckSize:7
+imagesPerCard:4
+timeTaken:24966
+decksBuilt:20000000
+cardsBuilt:140000000
+trials:5
+successfulTrials:0
+
+deckSize:8
+imagesPerCard:6
+timeTaken:48409
+decksBuilt:20000000
+cardsBuilt:160000000
+trials:5
+successfulTrials:0
+
