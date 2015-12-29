@@ -7,7 +7,7 @@ class Spot {
   public static void  main(String args[]) {
     Long startTime = System.currentTimeMillis();
 
-    Card[] goodDeck = createValidDeck(8);
+    Deck goodDeck = createValidDeck(6);
     Boolean isGoodDeck = testDeck(goodDeck);
 
     Long endTime = System.currentTimeMillis();
@@ -20,29 +20,17 @@ class Spot {
       System.out.println("Deck is invalid");
     }
 
-    for (int i = 0; i < goodDeck.length; i++) {
-      System.out.println(goodDeck[i]);
-    }
+    System.out.println(goodDeck);
 
   }
 
-  public static Card[] createValidDeck(int deckSize) {
+  public static Deck createValidDeck(int deckSize) {
     Boolean isGoodDeck = false;
-    Card[] deck = null;
+    Deck deck = null;
 
     while (!isGoodDeck) {
-      deck = createDeck(deckSize);
+      deck = Deck.createRandomDeck(deckSize);
       isGoodDeck = testDeck(deck);
-    }
-
-    return deck;
-  }
-
-  public static Card[] createDeck(int deckSize) {
-
-    Card[] deck = new Card[deckSize];
-    for (int i = 0; i < deck.length; i++) {
-      deck[i] = Card.getRandomCard();
     }
 
     return deck;
@@ -54,13 +42,13 @@ class Spot {
    * only one common image exists for each pair
    *
    **/
-  static Boolean testDeck(Card[] deck) {
+  static Boolean testDeck(Deck deck) {
     Boolean isGoodDeck = true;
 
-    for (int i = 0; i < deck.length - 1; i++) {
-      for (int j = i + 1; j < deck.length; j++) {
-        Card card1 = deck[i];
-        Card card2 = deck[j];
+    for (int i = 0; i < deck.deckSize - 1; i++) {
+      for (int j = i + 1; j < deck.deckSize; j++) {
+        Card card1 = deck.getCard(i);
+        Card card2 = deck.getCard(j);
         isGoodDeck = isGoodDeck && testPair(card1, card2);
         if (!isGoodDeck) {
           return false;

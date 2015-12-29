@@ -1,16 +1,12 @@
 import java.util.Random;
 
 class Card {
-  Integer id;
   CardImage[] images;
   Integer imageCount = 0;
 
-  static Integer deckSize = 0;
   static Integer defaultSlots = 4;
 
   public Card() {
-    deckSize++;
-    this.id = deckSize;
     this.images = new CardImage[4];
     this.imageCount = 0;
   }
@@ -60,7 +56,6 @@ class Card {
 
   public String toString() {
     StringBuffer cardString = new StringBuffer();
-    cardString.append("C" + this.id + ":");
 
     for (int i = 0; i < this.defaultSlots; i++) {
       if (i != 0) {
