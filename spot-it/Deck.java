@@ -9,11 +9,12 @@ class Deck {
     this.imagesPerCard = imagesPerCard;
   }
 
-  public static Deck createRandomDeck(int deckSize, int imagesPerCard) {
+  public static Deck createRandomDeck(int deckSize, int imagesPerCard, Stat stat) {
     Deck deck = new Deck(deckSize, imagesPerCard);
 
     for (int i = 0; i < deckSize; i++) {
       deck.cards[i] = Card.getRandomCard(imagesPerCard);
+      stat.cardBuilt();
     }
 
     return deck;

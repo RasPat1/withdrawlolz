@@ -5,37 +5,40 @@
 
 class Spot {
   public static void  main(String args[]) {
-    Long startTime = System.currentTimeMillis();
+    Stat stat = new Stat(6, 5);
+    Deck goodDeck = createValidDeck(6, 5, stat);
 
-    Deck goodDeck = createValidDeck(6, 4);
-    Boolean isGoodDeck = testDeck(goodDeck);
-
-    Long endTime = System.currentTimeMillis();
-
-    System.out.println("Deck built in: " + (endTime - startTime));
-
-    if (isGoodDeck) {
-      System.out.println("Deck is valid");
-    } else {
-      System.out.println("Deck is invalid");
-    }
-
+    System.out.println(stat);
     System.out.println(goodDeck);
-
   }
 
-  public static Deck createValidDeck(int deckSize, int imagesPerCard) {
+
+  /**
+  *  Try generating several different combinations of deckSizes and
+  *  imagesPerCard and gathering statistics on how difficult it is
+  *  Important metrics: "Time taken, Decks generated, Cards Generated"
+  *
+  **/
+  public static void testingSuite() {
+    // Stat stat = new Stat(deckSize, imagesPerCard);
+    // stat.start();
+    // Deck goodDeck = createValidDeck(deckSize, imagesPerCard, stat);
+    // stat.end();
+  }
+
+  public static Deck createValidDeck(int deckSize, int imagesPerCard, Stat stat) {
     Boolean isGoodDeck = false;
     Deck deck = null;
-    int deckCount = 0;
+
+    stat.start();
 
     while (!isGoodDeck) {
-      deck = Deck.createRandomDeck(deckSize, imagesPerCard);
+      deck = Deck.createRandomDeck(deckSize, imagesPerCard, stat);
       isGoodDeck = testDeck(deck);
-      deckCount++;
+      stat.deckBuilt();
     }
 
-    System.out.println(deckCount + " decks created.");
+    stat.end();
 
     return deck;
   }
