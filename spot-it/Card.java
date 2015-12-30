@@ -55,6 +55,25 @@ class Card {
     return hasImage;
   }
 
+  /**
+   * Returns true if one and only one image is in common between
+   * the pair of cards
+   *
+   **/
+  static Boolean testPair(Card card1, Card card2) {
+    int matchCount = 0;
+
+    for (int i = 0; i < card1.images.length; i++) {
+      for (int j = 0; j < card2.images.length; j++) {
+        if (card1.images[i].isEqual(card2.images[j])) {
+          matchCount++;
+        }
+      }
+    }
+
+    return matchCount == 1;
+  }
+
   public String toString() {
     StringBuffer cardString = new StringBuffer();
 
