@@ -1,10 +1,13 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 class Deck {
   Card[] cards;
   Integer deckSize;
   Integer imagesPerCard;
   Integer cardsInDeck = 0;
+
+  static Random random = new Random();
 
   public Deck(int deckSize, int imagesPerCard) {
     cards = new Card[deckSize];
@@ -36,7 +39,7 @@ class Deck {
     Deck deck = new Deck(deckSize, imagesPerCard);
     Card testCard = null;
     Long cardBailOutCount = (long) Math.pow(10, 7); // arbitrary
-    Long deckBailOutCount = (long) Math.pow(10, 1);
+    Long deckBailOutCount = (long) Math.pow(10, 2);
 
 
     while (deck.cardsInDeck < deckSize && stat.decksBuilt < deckBailOutCount) {
@@ -49,12 +52,15 @@ class Deck {
 
       // Start over if we've searched a lot of cards and have yet to find one that works
       if (stat.cardsBuilt >= (cardBailOutCount * stat.decksBuilt)) {
-        deck = new Deck(deckSize, imagesPerCard);
+        System.out.println("Cards in deck:" + deck.cardsInDeck);
+        deck.removeRandomCard();
+        stat.deckBuilt();
       }
     }
 
     if (testDeck(deck)) {
       stat.successfulTrial();
+      System.out.println(deck);
     }
 
     stat.end();
@@ -107,6 +113,23 @@ class Deck {
     }
 
     return added;
+  }
+
+  public Boolean removeRandomCard() {
+    Boolean removed;
+
+    if (cardsInDeck == 0) {
+      removed = false;
+    } else {
+      int randomIndex = random.nextInt(cardsInDeck);
+      Card card = cards[cardsInDeck - 1];
+      cards[cardsInDeck - 1] = null;
+      cardsInDeck--;
+      cards[randomIndex] = card;
+      removed = true;
+    }
+
+    return removed;
   }
 
   public Card getCard(int cardIndex) {

@@ -24,7 +24,7 @@ class Spot {
 
     // testWrapper(6, 4, 5, stats);
     // testWrapper(6, 5, 5, stats);
-    testWrapper(6, 6, 5, stats);
+    // testWrapper(6, 6, 5, stats);
    // testWrapper(7, 4, 5, stats);
     // testWrapper(7, 5, 5, stats);
     // testWrapper(7, 6, 5, stats);
@@ -38,6 +38,7 @@ class Spot {
     // testWrapper(9, 5, 5, stats);
     // testWrapper(9, 7, 5, stats);
    // testWrapper(9, 9, 5, stats);
+    testWrapper(25, 8, 1, stats); // Lol
 
     Long totalTimeTaken = 0L;
     Long totalDecksBuilt = 0L;
