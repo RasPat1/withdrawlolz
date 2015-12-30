@@ -23,6 +23,14 @@ class CardImage {
     this.data = data;
   }
 
+  public static CardImage getCardImage(int imageIndex) {
+    return new CardImage(imageTypes[imageIndex]);
+  }
+
+  public static int getCardImageCount() {
+    return imageTypes.length;
+  }
+
   public String toString() {
     return data;
   }

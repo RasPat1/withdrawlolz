@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Deck {
   Card[] cards;
   Integer deckSize;
@@ -70,7 +72,7 @@ class Deck {
     while (!isGoodDeck && stat.decksBuilt < bailOutCount) {
       deck = Deck.createRandomDeck(deckSize, imagesPerCard, stat);
       isGoodDeck = Deck.testDeck(deck);
-      stat.deckBuilt();`
+      stat.deckBuilt();
     }
 
     stat.end();
@@ -110,6 +112,44 @@ class Deck {
   public Card getCard(int cardIndex) {
     return cards[cardIndex];
   }
+
+  public static Card[] makeAllCards(int imagesPerCard) {
+
+    int max = CardImage.getCardImageCount();
+    int[] imageIndexes = new int[imagesPerCard];
+    ArrayList<Card> cards = new ArrayList<Card>();
+
+    // populate imageIndexes value with defaults: [0,1,2,3]
+    for (int i = 0; i < imageIndexes.length; i++) {
+      imageIndexes[i] = i;
+    }
+
+    int count = 0;
+    int index = imageIndexes.length - 1;
+
+    while (imageIndexes != null) {
+      cards.add(Card.getCard(imageIndexes, imagesPerCard));
+      imageIndexes = increment(imageIndexes, imagesPerCard - 1, max);
+    }
+    Card[] allCards = new Card[cards.size()];
+    return cards.toArray(allCards);
+  }
+
+  public static int[] increment(int[] start, int pos, int max) {
+    if (pos == -1) {
+      return null;
+    }
+
+    if (start[pos] == max) {
+      start[pos] = 0;
+      start = increment(start, pos - 1, max);
+    } else {
+      start[pos]++;
+    }
+
+    return start;
+  }
+
 
   /**
    * Tests whether a deck of spot it cards is valid.

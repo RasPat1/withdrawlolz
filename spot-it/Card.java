@@ -12,6 +12,18 @@ class Card {
     this.imagesPerCard = imagesPerCard;
   }
 
+
+  public static Card getCard(int[] images, int imagesPerCard) {
+    Card card = new Card(imagesPerCard);
+
+    for (int i = 0; i < imagesPerCard; i++) {
+      card.addImage(CardImage.getCardImage(images[i]));
+    }
+
+    return card;
+  }
+
+
   public static Card getRandomCard(int imagesPerCard) {
     Card card = new Card(imagesPerCard);
 

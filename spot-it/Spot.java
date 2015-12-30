@@ -22,20 +22,20 @@ class Spot {
     System.out.println(new Date());
     ArrayList<Stat> stats = new ArrayList<Stat>();
 
-    testWrapper(6, 4, 5, stats);
+    // testWrapper(6, 4, 5, stats);
     // testWrapper(6, 5, 5, stats);
-    // testWrapper(6, 6, 5, stats);
-   testWrapper(7, 4, 5, stats);
+    testWrapper(6, 6, 5, stats);
+   // testWrapper(7, 4, 5, stats);
     // testWrapper(7, 5, 5, stats);
     // testWrapper(7, 6, 5, stats);
     // testWrapper(7, 7, 5, stats);
     // testWrapper(8, 4, 5, stats);
-    testWrapper(8, 5, 5, stats);
+    // testWrapper(8, 5, 5, stats);
    // testWrapper(8, 6, 5, stats);
     // testWrapper(8, 7, 5, stats);
     // testWrapper(8, 8, 5, stats);
     // testWrapper(9, 4, 5, stats);
-    testWrapper(9, 5, 5, stats);
+    // testWrapper(9, 5, 5, stats);
     // testWrapper(9, 7, 5, stats);
    // testWrapper(9, 9, 5, stats);
 
