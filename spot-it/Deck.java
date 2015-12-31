@@ -155,7 +155,7 @@ class Deck {
     Card nextCard = null;
 
     while (nextCard == null) {
-      int[] nextImageIndexes = increment(imageIndexes, imagesPerCard - 1, max - 1);
+      int[] nextImageIndexes = randomIncrement(imageIndexes, max - 1);
       nextCard = Card.getCard(nextImageIndexes, imagesPerCard);
     }
 
@@ -213,6 +213,19 @@ class Deck {
     return start;
   }
 
+
+  public static int[] randomIncrement(int[] start, int max) {
+    int imagesPerCard = start.length;
+    int randomPos = random.nextInt(imagesPerCard);
+
+    if (start[randomPos] == max) {
+      start[randomPos] = 0;
+    } else {
+      start[randomPos]++;
+    }
+
+    return start;
+  }
 
   /**
    * Tests whether a deck of spot it cards is valid.
