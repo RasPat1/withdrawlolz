@@ -3,6 +3,7 @@ import java.util.Random;
 class CardImage {
   Integer id;
   String data;
+  Integer index = 0;
 
   static Integer imageCount = 0;
   static String[] imageTypes =
@@ -30,7 +31,9 @@ class CardImage {
   }
 
   public static CardImage getCardImage(int imageIndex) {
-    return new CardImage(imageTypes[imageIndex]);
+    CardImage cardImage = new CardImage(imageTypes[imageIndex]);
+    cardImage.index = imageIndex;
+    return cardImage;
   }
 
   public static int getCardImageCount() {

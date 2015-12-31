@@ -8,6 +8,7 @@ import java.util.Date;
 
 class Spot {
   public static void  main(String args[]) {
+    // Deck.testNextCard(8);
     testingSuite();
   }
 
@@ -38,7 +39,7 @@ class Spot {
     // testWrapper(9, 5, 5, stats);
     // testWrapper(9, 7, 5, stats);
    // testWrapper(9, 9, 5, stats);
-    testWrapper(25, 8, 1, stats); // Lol
+    testWrapper(55, 8, 1, stats); // Lol
 
     Long totalTimeTaken = 0L;
     Long totalDecksBuilt = 0L;

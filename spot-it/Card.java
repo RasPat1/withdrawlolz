@@ -15,12 +15,13 @@ class Card {
 
   public static Card getCard(int[] images, int imagesPerCard) {
     Card card = new Card(imagesPerCard);
+    Boolean success = true;
 
     for (int i = 0; i < imagesPerCard; i++) {
-      card.addImage(CardImage.getCardImage(images[i]));
+      success = success && card.addImage(CardImage.getCardImage(images[i]));
     }
 
-    return card;
+    return success ? card : null;
   }
 
 
@@ -65,6 +66,16 @@ class Card {
     }
 
     return hasImage;
+  }
+
+  public int[] extractIndexes() {
+    int[] imageIndexes = new int[images.length];
+
+    for (int i = 0; i < images.length; i++) {
+      imageIndexes[i] = images[i].index;
+    }
+
+    return imageIndexes;
   }
 
   /**
