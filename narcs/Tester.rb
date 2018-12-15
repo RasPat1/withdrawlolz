@@ -10,7 +10,7 @@ class Tester
     # Run each for 60 seconds and compare how many solutions were found
     # most basic thing is run them head to head and get how long it took to run
 
-    k = 8
+    k = 5
     result = FindNarcs.new.call(k, "Standard")
     fast_result = FastFindNarcs.new.call(k, "Fast")
 
