@@ -10,11 +10,13 @@ class Tester
     # Run each for 60 seconds and compare how many solutions were found
     # most basic thing is run them head to head and get how long it took to run
 
-    k = 6
-    result = FindNarcs.new.call(k, "Standard")
-    fast_result = FastFindNarcs.new.call(k, "Fast")
+    k = 7
+    max_seconds = 10
 
-    holder = ResultHolder.new("Test Run")
+    result = FindNarcs.new.call(k, "Standard", max_seconds)
+    fast_result = FastFindNarcs.new.call(k, "Fast", max_seconds)
+
+    holder = ResultHolder.new("Timed Run Max: #{max_seconds}s")
 
     holder.add_result(result)
     holder.add_result(fast_result)

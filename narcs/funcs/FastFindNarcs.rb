@@ -2,13 +2,15 @@ class FastFindNarcs
   def initialize
   end
 
-  def call(k, result_name)
+  def call(k, result_name, max_seconds=nil)
+    start_time = Time.now
     result = Result.new(result_name)
     max = 10 ** k
     powers = {}
     current_k = 0
 
     0.upto(max - 1) do |n|
+      break if max_seconds != nil && (Time.now - start_time).to_i > max_seconds
       sum = 0
       num_digits = n.to_s.size
       original_n = n
