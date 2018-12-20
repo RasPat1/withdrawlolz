@@ -1,4 +1,4 @@
-require 'gruff'
+# require 'gruff'
 require 'fileutils'
 
 class ResultHolder
@@ -17,7 +17,7 @@ class ResultHolder
 
   def print_results
     results.each do |result|
-      puts "#{result.name}\n\n#{result}\n\n\n"
+      puts "#{result.name}: #{result.data.size}\n\n#{result}\n\n\n"
     end
   end
 
@@ -26,16 +26,27 @@ class ResultHolder
     g = Gruff::Line.new
 
     g.title = name
-    g.y_axis_label = "Time (ms)"
-    g.x_axis_label = "Solutions Found"
+    g.y_axis_label = "Time (s)"
+    g.x_axis_label = "Solutions Length"
     g.hide_dots = true
 
     labels = {}
-    1.upto(50) { |val| labels[val] = val.to_s }
+    1.upto(60) do |val|
+      if val % 3 == 1
+        labels[val] = val.to_s
+      end
+    end
     g.labels = labels
+    count = 0
 
     results.each do |result|
-      xy_coords = result.data.map.with_index(1) { |solution, index| [index, solution.elapsed_time * 1000] }
+      xy_coords = result.data.map.with_index(1) do |solution, index|
+        [
+          solution.to_s.size,
+          solution.elapsed_time
+        ]
+      end
+
       g.dataxy(result.name, xy_coords)
     end
 

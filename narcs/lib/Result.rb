@@ -1,4 +1,4 @@
-# This aboject holds metatata about a specific result from our Tester
+# This object holds metatata about a specific result from our Tester
 # Attrs
 # Name:
 #     This is a way of distinguishing on particular run from another.
@@ -26,11 +26,13 @@ class Result
 
   def to_s
     largest_value_length = data.map { |s| s.value.to_s.size }.max
+
     messages = data.map do |s|
       padding = PAD_CHAR * (largest_value_length - s.value.to_s.size)
       display_time = (s.elapsed_time * 1000).truncate(2)
-      "#{s.value}#{padding}: #{display_time}"
+      "#{s.value}#{padding} : #{display_time}"
     end
+
     messages.join("\n")
   end
 end

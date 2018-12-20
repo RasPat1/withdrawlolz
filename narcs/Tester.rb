@@ -5,23 +5,28 @@ class Tester
   def initialize
   end
 
-  def call
+    def call
     # Run each alg from k = 1 to k = 10 for performance comparison
     # Run each for 60 seconds and compare how many solutions were found
-    # most basic thing is run them head to head and get how long it took to run
 
-    k = 7
-    max_seconds = 10
+    k = 40
+    max_seconds = 60
+    holder = ResultHolder.new("Alt Timed Run Max: #{max_seconds}s")
 
-    result = FindNarcs.new.call(k, "Standard", max_seconds)
-    fast_result = FastFindNarcs.new.call(k, "Fast", max_seconds)
+    funcs = [
+      [FindNarcs, k, "Standard", max_seconds],
+      [FastFindNarcs, k, "Fast", max_seconds],
+      [FasterFindNarcs, k, "Faster", max_seconds],
+      [FastestFindNarcs, k, "Fastest", max_seconds],
+    ]
 
-    holder = ResultHolder.new("Timed Run Max: #{max_seconds}s")
-
-    holder.add_result(result)
-    holder.add_result(fast_result)
+    funcs.each do |func_array|
+      klass = func_array[0]
+      result = klass.new.call(*func_array[1..-1])
+      holder.add_result(result)
+    end
 
     holder.print_results
-    holder.print_chart
+    # holder.print_chart
   end
 end
