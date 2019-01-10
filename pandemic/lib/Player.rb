@@ -1,9 +1,12 @@
 class Player
-  attr_accessor :name, :location
+  attr_accessor :name, :location, :hand
 
-  def initialize(name, location = nil)
+  MAX_HAND_SIZE = 7
+
+  def initialize(name, location = nil, hand = [])
     @name = name
     @location = location
+    @hand = hand
   end
 
   # fails to move ne location is not connected to old location
@@ -16,7 +19,19 @@ class Player
     true
   end
 
+  def add_card(card)
+    @hand << card
+  end
+
+  def discard_down
+    if @hand.size > MAX_HAND_SIZE
+      # Ask to Discard? How are we interacting
+      # with the user
+      # @hand.delete_at(card_index)
+    end
+  end
+
   def to_s
-    "#{name}"
+    "#{@name}: #{@location}"
   end
 end

@@ -1,9 +1,15 @@
-Dir["./*.rb"].each { |file| require file}
-
-class SpecRunner
+Dir["./spec/*.rb"].each do |file|
+  next if file == './spec/SpecRunner.rb'
+  require file
 end
 
-PandemicSpec.new.test
-BoardSpec.new.test
-CitySpec.new.test
-PlayerSpec.new.test
+class SpecRunner
+  def test
+    PandemicSpec.new.test
+    BoardSpec.new.test
+    CitySpec.new.test
+    PlayerSpec.new.test
+  end
+end
+
+SpecRunner.new.test

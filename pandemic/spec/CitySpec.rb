@@ -1,5 +1,5 @@
-require '../lib/City.rb'
-require './SpecBase.rb'
+require './lib/City.rb'
+require './spec/SpecBase.rb'
 
 
 class CitySpec < SpecBase

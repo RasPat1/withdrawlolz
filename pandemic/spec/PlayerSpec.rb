@@ -1,5 +1,5 @@
-require '../lib/Player.rb'
-require './SpecBase.rb'
+require './lib/Player.rb'
+require './spec/SpecBase.rb'
 
 class PlayerSpec < SpecBase
   def test
