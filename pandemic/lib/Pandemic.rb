@@ -88,12 +88,16 @@ class Pandemic
     rounds.times do |round|
       infections_per_card = rounds - round
       cards_per_round.times do |card_num|
-        card = @infection_deck.draw
-        outbreaks_added = card.city.add_infection(infections_per_card)
-        @outbreak_count += outbreaks_added
-        @infection_deck.discard(card)
+        infect(infections_per_card)
       end
     end
+  end
+
+  def infect(infection_count = 1)
+    card = @infection_deck.draw
+    outbreaks_added = card.city.add_infection(infection_count)
+    @outbreak_count += outbreaks_added
+    @infection_deck.discard(card)
   end
 
   # Construct the starting decks
