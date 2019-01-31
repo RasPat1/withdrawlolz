@@ -33,7 +33,7 @@ class City
     return nil if source_cities.include?(self)
 
     if infections + count > OUTBREAK_MAX
-      infect_surrounding(count, [self])
+      infect_surrounding(count, source_cities += self)
     else
       @infections += count
     end
@@ -51,8 +51,8 @@ class City
 
   def to_long_s
     "#{@name}:
-      Neighbors: #{Util.show_list(neighbors)}
-      Infection Count: #{@infections}"
+        Neighbors: #{Util.show_list(neighbors)}
+        Infection Count: #{@infections}"
   end
   def to_s
     @name

@@ -7,6 +7,7 @@ class Util
     vals = hash.map do |key, value|
       key == true ? key.to_s : value.to_long_s
     end
-    vals.join("\t\n")
+    vals.join("
+      ")
   end
 end

@@ -12,6 +12,7 @@ end
 
 class CityCard < Card
 end
+
 class InfectionCard < Card
 end
 

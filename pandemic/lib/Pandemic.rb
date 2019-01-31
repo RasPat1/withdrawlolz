@@ -22,16 +22,18 @@ class Pandemic
     @infection_deck = Deck.new
     @city_deck = Deck.new
     @game_over = false
+    @turns = []
+    @current_turn = nil
 
     init_players(player_count)
     init_decks
     infect_board(2,2)
 
-    until game_over
+    puts "START"
+    while !@game_over
+      puts self
       turn
     end
-
-    puts self
   end
 
   def init_players(player_count)
@@ -40,15 +42,27 @@ class Pandemic
     end
   end
 
-  # Once we have hte game set up
+  # Once we have the game set up
   # players can take a turn
   def turn
     current_player = @players.shift
     @players << current_player
+    @current_turn = Turn.new(current_player)
+    @turns << @current_turn
+
+    @current_turn.show_actions
+    chosen_action = gets
+    # Take the action
+    # Display any other prompts necessary for the action to be completed
+    puts chosen_action
   end
 
   # Describe the end condition of the game
   def game_over
+    # 8 outbreaks happen
+    # we run out of ctiy cards?
+    # we run out of infection cards
+    #
     @game_over
   end
 
@@ -83,9 +97,9 @@ class Pandemic
         #{Util.show_list(@players)}
     #{@board}
     Infection Deck:
-        #{@infection_deck}
+      #{@infection_deck}
     City Deck:
-        #{@city_deck}"
+      #{@city_deck}"
   end
 
 end

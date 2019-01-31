@@ -1,7 +1,6 @@
 require './lib/City.rb'
 require './spec/SpecBase.rb'
 
-
 class CitySpec < SpecBase
   def test
     test_init

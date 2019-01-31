@@ -15,5 +15,6 @@ class PandemicSpec < SpecBase
     game = Pandemin.new
     # Game started w/ 1 player
     puts game
+    game.turn
   end
 end

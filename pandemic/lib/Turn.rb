@@ -1,5 +1,6 @@
+# Each players turn
 class Turn
-  attr_acccessor :player, :actions
+  attr_accessor :player, :actions
 
   MAX_ACTIONS = 4
 
@@ -13,26 +14,11 @@ class Turn
     @actions << Action.new(act_type)
   end
 
-end
-
-# Actions that a player can do
-class Action
-  attr_acccessor :type
-
-  ACTION_TYPES = [
-    CURE = :cure,
-    SHARE = :share,
-    RESEARCH = :research,
-    BUILD = :build,
-
-    # city next to you
-    # reserach station to reserach station
-    # Use card to go from current city to card city
-    # Use card to go from card city to any city
-    TRAVEL = :travel
-  ]
-
-  def initialize(type)
-    @type = type
+  def show_actions
+    Action::ACTION_TYPES.each_with_index do |action, index|
+      if Action.can_take_action(player, action)
+        puts "#{index}) Player can #{action}"
+      end
+    end
   end
 end

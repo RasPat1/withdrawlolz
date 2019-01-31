@@ -23,11 +23,21 @@ class Player
     @hand << card
   end
 
+  def has_city_card(city)
+    @hand.each do |card|
+      has_card = card.city == city || card.city.name == city.name
+      return true if has_card
+    end
+
+    false
+  end
+
   def discard_down
     if @hand.size > MAX_HAND_SIZE
       # Ask to Discard? How are we interacting
       # with the user
       # @hand.delete_at(card_index)
+      # What's The game interface like
     end
   end
 
