@@ -61,11 +61,20 @@ class Pandemic
 
   # Describe the end condition of the game
   def game_over
+    # We have too many outbreaks
     return true if @outbreak_count > MAX_OUTBREAKS
-    # 8 outbreaks happen
-    # we run out of ctiy cards?
-    # we run out of infection cards
-    #
+
+    # We run out of city cards?
+    return true if @city_deck.empty?
+
+    # We have no more infection cards to draw
+    return true if @infection_deck.empty?
+
+    # I think that we reshuffle the cards back
+    # in the actual game when you run out of
+    # one of these decks?
+    # Todo: Rule Check
+
     @game_over
   end
 

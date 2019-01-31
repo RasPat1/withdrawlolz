@@ -22,6 +22,10 @@ class Deck
     @cards = @cards.shuffle
   end
 
+  def empty?
+    @cards.size == 0
+  end
+
   def to_s
     "Remaining: #{@cards.size}
       Discard: #{Util.show_list(@discard) }"
