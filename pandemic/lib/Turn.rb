@@ -9,9 +9,21 @@ class Turn
     @actions = actions
   end
 
-  def act(type)
-    return false if @actions.size >= 4
-    @actions << Action.new(act_type)
+  def act(type_index)
+    puts "Acting"
+    if type_index > Action::ACTION_TYPES.size
+      return false
+      # Todo: Make some set of custom exceptions
+      raise Exception.new
+    end
+    action = Action::ACTION_TYPES[type_index]
+
+    case action
+    when Action::CURE
+      @player.location.remove_infection
+    end
+
+    @actions << action
   end
 
   def show_actions

@@ -59,6 +59,8 @@ class Pandemic
 
     @current_turn.show_actions
     chosen_action = gets
+    chosen_action = chosen_action.to_i
+    @current_turn.act(chosen_action)
     # Take the action
     # Display any other prompts necessary for the action to be completed
     puts chosen_action

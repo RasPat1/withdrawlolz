@@ -34,6 +34,9 @@ class City
     return nil if source_cities.include?(self)
 
     if infections + count > OUTBREAK_MAX
+      # I'm actually a little unclear on what the rules are
+      # here.
+      # Todo: Clarify the rules when you get off this plane
       neighbors.each do |city|
         outbreaks_added += city.add_infection(count, source_cities)
       end
@@ -44,11 +47,9 @@ class City
     outbreaks_added
   end
 
-  # I'm actually a little unclear on what the rules are
-  # here.
-  # Todo: Clarify the rules when you get off this plane
-  def outbreak(count, source_cities = [self])
-
+  def remove_infection(count = 1)
+    # Infection count in a city can't be negative
+    @infections -= count if @infections >= count
   end
 
   def self.find_by_id(id)
