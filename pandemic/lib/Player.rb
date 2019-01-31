@@ -33,16 +33,24 @@ class Player
   end
 
   def discard_down
-    if @hand.size > MAX_HAND_SIZE
-      # Ask to Discard? How are we interacting
-      # with the user
-      # @hand.delete_at(card_index)
-      # What's The game interface like
+    discarded_cards = []
+
+    while @hand.size > MAX_HAND_SIZE
+      puts "You have too many cards: Discard a card"
+      @hand.each_with_index do |card, index|
+        puts "#{index}) #{card.city.name}"
+      end
+      card_index = gets
+      card_index = card_index.to_i
+      discarded_cards << @hand[card_index]
+      @hand.delete_at(card_index)
     end
+
+    discarded_cards
   end
 
   def to_s
     "#{@name}: #{@location}
-     #{@hand}"
+     #{Util.show_list(@hand)}"
   end
 end

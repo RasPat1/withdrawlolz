@@ -28,7 +28,8 @@ class Pandemic
 
     init_players(player_count)
     init_decks
-    infect_board(2,2)
+    init_hands(4)
+    infect_board(3,3)
 
     puts "======================================"
   end
@@ -64,34 +65,20 @@ class Pandemic
     # Take the action
     # Display any other prompts necessary for the action to be completed
     puts chosen_action
+
+    draw_city_cards(current_player, 2)
+
+    # Discard down to max hand size if necessary
+    discarded_cards = current_player.discard_down
+    discarded_cards.each do |card|
+      @city_deck.discard(card)
+    end
   end
 
-  # Describe the end condition of the game
-  def game_over
-    # We have too many outbreaks
-    return true if @outbreak_count > MAX_OUTBREAKS
-
-    # We run out of city cards?
-    return true if @city_deck.empty?
-
-    # We have no more infection cards to draw
-    return true if @infection_deck.empty?
-
-    # I think that we reshuffle the cards back
-    # in the actual game when you run out of
-    # one of these decks?
-    # Todo: Rule Check
-
-    false
-  end
-
-  # Pull 9 cards three at a time
-  def infect_board(rounds, cards_per_round)
-    rounds.times do |round|
-      infections_per_card = rounds - round
-      cards_per_round.times do |card_num|
-        infect(infections_per_card)
-      end
+  def draw_city_cards(player, cards)
+    cards.times do
+      card = @city_deck.draw
+      player.add_card(card)
     end
   end
 
@@ -112,6 +99,44 @@ class Pandemic
 
     @city_deck.shuffle
     @infection_deck.shuffle
+  end
+
+  def init_hands(start_hand_size)
+    @players.each do |player|
+      start_hand_size.times do
+        card = @city_deck.draw
+        player.add_card(card)
+      end
+    end
+  end
+
+  # Pull 9 cards three at a time
+  def infect_board(rounds, cards_per_round)
+    rounds.times do |round|
+      infections_per_card = rounds - round
+      cards_per_round.times do |card_num|
+        infect(infections_per_card)
+      end
+    end
+  end
+
+  # Describe the end condition of the game
+  def game_over
+    # We have too many outbreaks
+    return true if @outbreak_count > MAX_OUTBREAKS
+
+    # We run out of city cards?
+    return true if @city_deck.empty?
+
+    # We have no more infection cards to draw
+    return true if @infection_deck.empty?
+
+    # I think that we reshuffle the cards back
+    # in the actual game when you run out of
+    # one of these decks?
+    # Todo: Rule Check
+
+    false
   end
 
   # Print out the game state for debugging
