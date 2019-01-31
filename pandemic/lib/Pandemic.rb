@@ -15,6 +15,7 @@ end
 
 class Pandemic
   attr_accessor :game_over
+  MAX_OUTBREAKS = 8
 
   def initialize(player_count = 1)
     @board = Board.new
@@ -24,13 +25,14 @@ class Pandemic
     @game_over = false
     @turns = []
     @current_turn = nil
+    @outbreak_count = 0
 
     init_players(player_count)
     init_decks
     infect_board(2,2)
 
     puts "START"
-    while !@game_over
+    while game_over == false
       puts self
       turn
     end
@@ -59,6 +61,7 @@ class Pandemic
 
   # Describe the end condition of the game
   def game_over
+    return true if @outbreak_count > MAX_OUTBREAKS
     # 8 outbreaks happen
     # we run out of ctiy cards?
     # we run out of infection cards
@@ -72,7 +75,8 @@ class Pandemic
       infections_per_card = rounds - round
       cards_per_round.times do |card_num|
         card = @infection_deck.draw
-        card.city.add_infection(infections_per_card)
+        outbreaks_added = card.city.add_infection(infections_per_card)
+        @outbreak_count += outbreaks_added
         @infection_deck.discard(card)
       end
     end

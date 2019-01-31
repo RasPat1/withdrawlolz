@@ -30,23 +30,25 @@ class City
   # We need to add infection types here
   # We want to keep track of total number of outbreaks
   def add_infection(count = 1, source_cities = [])
+    outbreaks_added = 0
     return nil if source_cities.include?(self)
 
     if infections + count > OUTBREAK_MAX
-      outbreak(count, source_cities << self)
+      neighbors.each do |city|
+        outbreaks_added += city.add_infection(count, source_cities)
+      end
     else
       @infections += count
     end
+
+    outbreaks_added
   end
 
   # I'm actually a little unclear on what the rules are
   # here.
   # Todo: Clarify the rules when you get off this plane
   def outbreak(count, source_cities = [self])
-    publish_outbreak
-    neighbors.each do |city|
-      city.add_infection(count, source_cities)
-    end
+
   end
 
   def self.find_by_id(id)
