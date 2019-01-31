@@ -27,6 +27,10 @@ class City
     self
   end
 
+  def is_connected(other_city)
+    neighbors.include?(other_city)
+  end
+
   # We need to add infection types here
   # We want to keep track of total number of outbreaks
   def add_infection(count = 1, source_cities = [])

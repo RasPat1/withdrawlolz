@@ -10,11 +10,11 @@ class Player
   end
 
   # fails to move ne location is not connected to old location
-  # Updates locatio and returns true if move is succesful
+  # Updates location and returns true if move is succesful
   def move(new_location)
-    # prob throm an error
+    # Todo: Throw a custom Exception
     return false unless location.is_connected(new_location)
-    location = new_location
+    @location = new_location
 
     true
   end

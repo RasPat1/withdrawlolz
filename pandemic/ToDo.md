@@ -1,7 +1,6 @@
 ### ToDo
 
 In Order:
-* Movement to adjacent city
 * Add player hand and hand sizes
 * Movement 1 via city card
 * Movement 2 via city card
@@ -32,3 +31,4 @@ Not yet Ordered:
 
 Done:
 * Cure should reduce infection count
+* Movement to adjacent city

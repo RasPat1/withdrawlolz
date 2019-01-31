@@ -22,13 +22,16 @@ class Action
   def self.can_take_action(player, type)
     case type
     when CURE
-      # player.location.infections > 0
-      true
-    # when TRAVEL
+      return player.location.infections > 0
+      # return true
+    # when FLY
     #   @player.has_city_card(player.location)
     # when
-    else
-      false
+    when TRAVEL
+      # player.location.neighbors.size > 0
+      return true
     end
+
+    false
   end
 end
