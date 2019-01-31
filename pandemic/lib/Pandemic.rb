@@ -22,7 +22,6 @@ class Pandemic
     @players = []
     @infection_deck = Deck.new
     @city_deck = Deck.new
-    @game_over = false
     @turns = []
     @current_turn = nil
     @outbreak_count = 0
@@ -75,7 +74,7 @@ class Pandemic
     # one of these decks?
     # Todo: Rule Check
 
-    @game_over
+    false
   end
 
   # Pull 9 cards three at a time
