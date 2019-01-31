@@ -42,6 +42,7 @@ class Player
   end
 
   def to_s
-    "#{@name}: #{@location}"
+    "#{@name}: #{@location}
+     #{@hand}"
   end
 end
