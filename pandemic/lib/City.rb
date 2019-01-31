@@ -1,4 +1,4 @@
-class City < LibBase
+class City
   attr_accessor :name, :id, :neighbors, :infections
 
   OUTBREAK_MAX = 3
@@ -60,17 +60,5 @@ class City < LibBase
   end
   def to_s
     @name
-  end
-
-  def receive_event(event_type, value)
-    case event_type
-    when
-      PubSub::OUTBREAK
-      # do something
-    end
-  end
-
-  def publish_outbreak
-    PubSub.publish(PubSub::OUTBREAK, nil)
   end
 end

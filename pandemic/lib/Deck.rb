@@ -1,4 +1,4 @@
-class Deck < LibBase
+class Deck
   attr_accessor :cards, :discard
 
   def initialize(cards = [])

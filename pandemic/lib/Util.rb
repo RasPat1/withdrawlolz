@@ -1,4 +1,4 @@
-class Util < LibBase
+class Util
   def self.show_list(arr)
     arr.map { |elem| elem.to_s }.join(',')
   end

@@ -1,5 +1,5 @@
 # Each players turn
-class Turn < LibBase
+class Turn
   attr_accessor :player, :actions
 
   MAX_ACTIONS = 4

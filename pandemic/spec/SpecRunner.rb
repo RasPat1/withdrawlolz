@@ -5,13 +5,10 @@ end
 
 class SpecRunner
   def test
-    # PandemicSpec.new.test
-    # BoardSpec.new.test
+    PandemicSpec.new.test
+    BoardSpec.new.test
     CitySpec.new.test
-    # PlayerSpec.new.test
-    EventSpec.new.test
-
-    puts "All Tests Pass"
+    PlayerSpec.new.test
   end
 end
 

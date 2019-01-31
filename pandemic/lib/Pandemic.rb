@@ -11,10 +11,9 @@ end
 # Infect X cities with Y infections in Z rounds
 # Each player gets 4 actions
 # Code each of the actions
-# Keep track of total outbreaks
 ######
 
-class Pandemic < LibBase
+class Pandemic
   attr_accessor :game_over
 
   def initialize(player_count = 1)
@@ -25,10 +24,6 @@ class Pandemic < LibBase
     @game_over = false
     @turns = []
     @current_turn = nil
-    @outbreak_count = 0
-
-    # subscribe to applicable events
-    subscribe
 
     init_players(player_count)
     init_decks
@@ -38,23 +33,6 @@ class Pandemic < LibBase
     while !@game_over
       puts self
       turn
-    end
-  end
-
-  def subscribe
-
-
-PubSub.subscribe(
-
-PubSub::OUTBREAK)
-  end
-
-  def receive_event(event_type, value)
-    case event_type
-    when
-
-PubSub::OUTBREAK
-      @outbreaks += 1
     end
   end
 
