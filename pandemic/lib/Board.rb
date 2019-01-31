@@ -1,5 +1,5 @@
 # Let's start by initializing a fixed board
-class Board
+class Board < LibBase
   attr_accessor :cities, :edges, :starting_city
 
   STARTING_CITY_NAME = "New York"

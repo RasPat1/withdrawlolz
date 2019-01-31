@@ -1,5 +1,5 @@
 # Actions that a player can do
-class Action
+class Action < LibBase
   attr_accessor :type
 
   ACTION_TYPES = [

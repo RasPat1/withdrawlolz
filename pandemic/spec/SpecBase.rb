@@ -1,3 +1,5 @@
+require './lib/LibBase'
+
 class SpecBase
   def assert(arg, name = nil)
     if arg == false

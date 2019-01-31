@@ -1,4 +1,4 @@
-class Player
+class Player < LibBase
   attr_accessor :name, :location, :hand
 
   MAX_HAND_SIZE = 7

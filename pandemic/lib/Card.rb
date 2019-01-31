@@ -1,4 +1,4 @@
-class Card
+class Card < LibBase
   attr_accessor :city
 
   def initialize(city)
