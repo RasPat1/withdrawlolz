@@ -30,11 +30,17 @@ class Pandemic
     init_decks
     infect_board(2,2)
 
-    puts "START"
+    puts "======================================"
+  end
+
+  def play
+    puts "==============GAME START=============="
     while game_over == false
       puts self
       turn
+      infect
     end
+    puts "===============GAME END==============="
   end
 
   def init_players(player_count)
