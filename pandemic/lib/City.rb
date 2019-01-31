@@ -15,7 +15,6 @@ class City
     @@all_cities << self
   end
 
-
   def add_edge(city)
     return nil unless city.kind_of? City
 
@@ -29,19 +28,24 @@ class City
   end
 
   # We need to add infection types here
+  # We want to keep track of total number of outbreaks
   def add_infection(count = 1, source_cities = [])
     return nil if source_cities.include?(self)
 
     if infections + count > OUTBREAK_MAX
-      infect_surrounding(count, source_cities += self)
+      outbreak(count, source_cities << self)
     else
       @infections += count
     end
   end
 
-  def infect_surrounding(count, source_cities = [self])
+  # I'm actually a little unclear on what the rules are
+  # here.
+  # Todo: Clarify the rules when you get off this plane
+  def outbreak(count, source_cities = [self])
+    publish_outbreak
     neighbors.each do |city|
-      add_infection(count, source_cities += self)
+      city.add_infection(count, source_cities)
     end
   end
 

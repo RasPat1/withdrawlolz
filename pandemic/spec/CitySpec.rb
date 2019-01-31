@@ -6,6 +6,7 @@ class CitySpec < SpecBase
     test_init
     test_edges
     test_edge_adding_edge_conditions
+    test_add_infection
   end
 
   def test_init
@@ -48,5 +49,52 @@ class CitySpec < SpecBase
 
     # If this runs we're happy
     assert true
+  end
+
+  def test_add_infection
+    c1 = City.new("c1")
+    c2 = City.new("c2")
+    c3 = City.new("c3")
+    c1.add_edge(c2)
+    c2.add_edge(c3)
+
+    assert c1.infections == 0
+    assert c2.infections == 0
+    assert c3.infections == 0
+
+    c1.add_infection
+    assert c1.infections == 1
+    assert c2.infections == 0
+    assert c3.infections == 0
+
+    c1.add_infection(2)
+    assert c1.infections == 3
+    assert c2.infections == 0
+    assert c3.infections == 0
+
+    c2.add_infection
+    assert c1.infections == 3
+    assert c2.infections == 1
+    assert c3.infections == 0
+
+    c1.add_infection
+    assert c1.infections == 3
+    assert c2.infections == 2
+    assert c3.infections == 0
+
+    c1.add_infection
+    assert c1.infections == 3
+    assert c2.infections == 3
+    assert c3.infections == 0
+
+    c0 = City.new("c0")
+    c0.add_edge(c1)
+    c1.add_infection
+    # Todo: Do a rule check here. Is c0 supposed to
+    # have 2 infections here. I think so.
+    assert c0.infections == 1
+    assert c1.infections == 3
+    assert c2.infections == 3
+    assert c3.infections == 1
   end
 end
