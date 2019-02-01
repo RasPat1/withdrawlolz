@@ -1,15 +1,15 @@
 ### ToDo
 
 In Order:
-
-* Movement 1 via city card
-* Movement 2 via city card
+* Add visual interface
 
 * Add Epidemic cards
 * Add shuffle back in infection/city(?) cards
 * Add the ability to specify difficulty via number of epidemic cards
 
-* Add visual interface
+* Movement 1 via city card
+* Movement 2 via city card
+
 * Add debugging tool
 
 * Add Research centers
