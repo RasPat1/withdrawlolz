@@ -1,4 +1,3 @@
-require 'byebug'
 class Config
   attr_accessor :city_list, :starting_city, :edges
 
