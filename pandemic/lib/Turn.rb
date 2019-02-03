@@ -10,7 +10,6 @@ class Turn
   end
 
   def act(type_index)
-    puts "Acting"
     if type_index > Action::ACTION_TYPES.size || type_index < 0
       return false
       # Todo: Make some set of custom exceptions

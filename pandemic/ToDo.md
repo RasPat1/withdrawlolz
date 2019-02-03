@@ -3,8 +3,6 @@
 In Order:
 * Add visual interface
 
-* Multiple actiohemns per turn
-
 * Add max cubes
 * Add multiple game over conditions
   * Run out of city cards
@@ -46,3 +44,4 @@ Done:
 * Add Epidemic cards
 * Add shuffle back in infection/city(?) cards
 * Add the ability to specify difficulty via number of epidemic cards
+* Multiple actions per turn

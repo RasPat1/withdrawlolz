@@ -50,7 +50,8 @@ class Player
   end
 
   def to_s
-    "#{@name}: #{@location}
-     #{Util.show_list(@hand)}"
+    "Name: #{@name}
+        Location: #{@location}
+        Hand: #{Util.show_list(@hand)}"
   end
 end

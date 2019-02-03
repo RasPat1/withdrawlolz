@@ -20,7 +20,7 @@ class Pandemic
   attr_accessor :game_over
   MAX_OUTBREAKS = 8
 
-  def initialize(player_count = 1, difficulty = 4)
+  def initialize(player_count = 1, difficulty = 2)
     @board = Board.new
     @players = []
     @infection_deck = Deck.new
@@ -28,6 +28,7 @@ class Pandemic
     @turns = []
     @current_turn = nil
     @outbreak_count = 0
+    @actions_per_turn = 4
     initial_hand_size = 4
     pre_game_infection_rounds = 3
     infection_count_per_card = 3
@@ -68,13 +69,13 @@ class Pandemic
     @current_turn = Turn.new(current_player)
     @turns << @current_turn
 
-    @current_turn.show_actions
-    chosen_action = gets
-    chosen_action = chosen_action.to_i
-    @current_turn.act(chosen_action)
-    # Take the action
-    # Display any other prompts necessary for the action to be completed
-    puts chosen_action
+    @actions_per_turn.times do
+      @current_turn.show_actions
+      chosen_action = gets
+      chosen_action = chosen_action.to_i
+      @current_turn.act(chosen_action)
+      puts self
+    end
 
     draw_city_cards(current_player, 2)
 
@@ -148,7 +149,7 @@ class Pandemic
   def infect_board(rounds, cards_per_round)
     rounds.times do |round|
       infections_per_card = rounds - round
-      cards_per_round.times do |card_num|
+      cards_per_round.times do
         infect(infections_per_card)
       end
     end
@@ -187,6 +188,8 @@ class Pandemic
     "
     Players:
         #{Util.show_list(@players)}
+    Outbreak Count: #{@outbreak_count}
+    Infection Rate: #{@board.rate}
     #{@board}
     Infection Deck:
       #{@infection_deck}

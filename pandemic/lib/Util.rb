@@ -1,6 +1,6 @@
 class Util
   def self.show_list(arr)
-    arr.map { |elem| elem.to_s }.join(',')
+    arr.map { |elem| elem.to_s }.join(', ')
   end
 
   def self.show_hash(hash, key = true)
