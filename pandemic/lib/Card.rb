@@ -16,6 +16,15 @@ end
 class InfectionCard < Card
 end
 
+class EpidemicCard
+  def initialize
+  end
+
+  def to_s
+    "Epidemic!"
+  end
+end
+
 # Not implemented yet
 class EventCard
 end

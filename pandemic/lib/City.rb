@@ -17,6 +17,7 @@ class City
 
   def add_edge(city)
     return nil unless city.kind_of? City
+    return nil if city == self
 
     @neighbors << city
     @neighbors = @neighbors.uniq
@@ -35,12 +36,13 @@ class City
   # We want to keep track of total number of outbreaks
   def add_infection(count = 1, source_cities = [])
     outbreaks_added = 0
-    return nil if source_cities.include?(self)
+    return 0 if source_cities.include?(self)
 
-    if infections + count > OUTBREAK_MAX
+    if @infections + count > OUTBREAK_MAX
       # I'm actually a little unclear on what the rules are
       # here.
       # Todo: Clarify the rules when you get off this plane
+      source_cities << self
       neighbors.each do |city|
         outbreaks_added += city.add_infection(count, source_cities)
       end

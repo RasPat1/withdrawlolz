@@ -1,9 +1,13 @@
+require 'forwardable'
+
 class Board
-  attr_accessor :cities, :edges, :starting_city
+  extend Forwardable
+  attr_accessor :cities, :edges, :starting_city, :infection_rate_tracker
 
   # Let's manually create a group of cities
   def initialize
     config = Config.new
+    @infection_rate_tracker = InfectionRateTracker.new
 
     @cities = init_cities(config.city_list)
     @starting_city = @cities[config.starting_city]
@@ -39,4 +43,5 @@ class Board
       #{Util.show_hash(@cities, false)}"
   end
 
+  def_delegators :@infection_rate_tracker, :rate, :increase_rate
 end

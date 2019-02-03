@@ -1,6 +1,9 @@
 Dir["./lib/*.rb"].each do |file|
   require file
 end
+
+require 'byebug'
+
 #####
 # Create a group of cities
 # Connect those cities (fixed start right now)
@@ -17,7 +20,7 @@ class Pandemic
   attr_accessor :game_over
   MAX_OUTBREAKS = 8
 
-  def initialize(player_count = 1)
+  def initialize(player_count = 1, difficulty = 4)
     @board = Board.new
     @players = []
     @infection_deck = Deck.new
@@ -25,11 +28,15 @@ class Pandemic
     @turns = []
     @current_turn = nil
     @outbreak_count = 0
+    initial_hand_size = 4
+    pre_game_infection_rounds = 3
+    infection_count_per_card = 3
 
     init_players(player_count)
-    init_decks
-    init_hands(4)
-    infect_board(3,3)
+    init_decks(difficulty)
+    init_hands(initial_hand_size)
+    infect_board(pre_game_infection_rounds, infection_count_per_card)
+    add_epidemic_cards(difficulty)
 
     puts "======================================"
   end
@@ -39,7 +46,10 @@ class Pandemic
     while game_over == false
       puts self
       turn
-      infect
+
+      @board.rate.times do
+        infect
+      end
     end
     puts "===============GAME END==============="
   end
@@ -78,19 +88,43 @@ class Pandemic
   def draw_city_cards(player, cards)
     cards.times do
       card = @city_deck.draw
-      player.add_card(card)
+
+      if card.kind_of? EpidemicCard
+        @city_deck.discard(card)
+        trigger_epidemic
+      else
+        player.hand << card
+      end
     end
   end
 
   def infect(infection_count = 1)
     card = @infection_deck.draw
+    puts card
+
     outbreaks_added = card.city.add_infection(infection_count)
     @outbreak_count += outbreaks_added
     @infection_deck.discard(card)
+
+    outbreaks_added || 0
+  end
+
+  # Increase the infection rate
+  # Infect the bottom card from the infection deck w/ 3 infections
+  # Shuffle the discarded city cards and put them on the top of the deck
+  def trigger_epidemic
+    @board.increase_rate
+
+    bottom_card = @infection_deck.bottom_draw
+    outbreaks_added = bottom_card.city.add_infection(3)
+    @outbreak_count += outbreaks_added
+
+    @infection_deck.discard(bottom_card)
+    @infection_deck.add_all_discard_to_deck
   end
 
   # Construct the starting decks
-  def init_decks
+  def init_decks(epidemic_cards)
     # We initialize 2 decks with one card for each city
     @board.cities.each do |city_name, city|
       @city_deck.add_card(CityCard.new(city))
@@ -118,6 +152,15 @@ class Pandemic
         infect(infections_per_card)
       end
     end
+  end
+
+  def add_epidemic_cards(difficulty)
+    difficulty.times do
+      @city_deck.add_card(EpidemicCard.new)
+    end
+
+    # Fun to turn this off for Debug
+    @city_deck.shuffle
   end
 
   # Describe the end condition of the game

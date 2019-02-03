@@ -77,14 +77,14 @@ class Config
     'Milwaukee',
     'New Orleans',
     'New York',
-    'Orlando',
-    'Philadelphia',
-    'Phoenix',
-    'Portland',
-    'San Francisco',
-    'Seattle',
-    'Tucson',
-    'Washington, D.C.',
+    # 'Orlando',
+    # 'Philadelphia',
+    # 'Phoenix',
+    # 'Portland',
+    # 'San Francisco',
+    # 'Seattle',
+    # 'Tucson',
+    # 'Washington, D.C.',
     ].uniq
   end
 

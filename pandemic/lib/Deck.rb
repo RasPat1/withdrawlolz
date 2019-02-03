@@ -10,8 +10,18 @@ class Deck
     card = @cards.pop
   end
 
+  def bottom_draw
+    card = @cards.shift
+  end
+
   def add_card(card)
     @cards << card
+  end
+
+  def add_all_discard_to_deck
+    @discard = @discard.shuffle
+    @cards += @discard
+    @discard = []
   end
 
   def discard(card)
