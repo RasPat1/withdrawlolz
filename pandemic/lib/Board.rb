@@ -14,6 +14,16 @@ class Board
     connect_cities(config.edges)
   end
 
+  def total_infections
+    infections = 0
+
+    cities.each do |city|
+      infections += city.infections
+    end
+
+    infections
+  end
+
   def init_cities(city_list)
     cities = {}
 

@@ -19,6 +19,7 @@ require 'byebug'
 class Pandemic
   attr_accessor :game_over
   MAX_OUTBREAKS = 8
+  MAX_INFECTIONS = 24
 
   def initialize(player_count = 1, difficulty = 2)
     @board = Board.new
@@ -175,10 +176,8 @@ class Pandemic
     # We have no more infection cards to draw
     return true if @infection_deck.empty?
 
-    # I think that we reshuffle the cards back
-    # in the actual game when you run out of
-    # one of these decks?
-    # Todo: Rule Check
+    # You're allowed a max of 24 infection cubes per disease
+    return true if @board.total_infections > MAX_INFECTIONS
 
     false
   end

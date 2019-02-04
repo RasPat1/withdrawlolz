@@ -3,12 +3,6 @@
 In Order:
 * Add visual interface
 
-* Add max cubes
-* Add multiple game over conditions
-  * Run out of city cards
-  * Run out of game cubes
-  * Have too many outbreaks
-
 * Movement 1 via city card
 * Movement 2 via city card
 
@@ -45,3 +39,8 @@ Done:
 * Add shuffle back in infection/city(?) cards
 * Add the ability to specify difficulty via number of epidemic cards
 * Multiple actions per turn
+* Add max cubes
+* Add multiple game over conditions
+  * Run out of city cards
+  * Run out of game cubes
+  * Have too many outbreaks
