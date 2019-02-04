@@ -4,10 +4,11 @@ class Turn
 
   MAX_ACTIONS = 4
 
-  def initialize(player, city_deck, actions = [])
+  def initialize(player, city_deck, board, actions = [])
     @player = player
     @city_deck = city_deck
     @actions = actions
+    @board = board
   end
 
   def act(type_index)
@@ -20,25 +21,29 @@ class Turn
     action = Action::ACTION_TYPES[type_index]
 
     case action
+
+
     when Action::CURE
       @player.location.remove_infection
+
+
     when Action::DRIVE
       current_city = @player.location
 
       # ToDo: woof really breaking separation of concerns here
       # ToDo: Remove this to some prompting element
       puts "Which city are you going to?"
-
       current_city.neighbors.each_with_index do |city, index|
         puts "#{index}) #{city.name}"
       end
 
       destination_index = gets
       new_city = current_city.neighbors[destination_index.to_i]
-
       @player.move(new_city) unless new_city == nil
+
+
     when Action::DIRECT_FLIGHT
-      puts "Which city are you going to (This will discard the card)?"
+      puts "Which city are you going to? This will discard that cities card"
       @player.hand.each_with_index do |card, index|
         puts "#{index}) #{card.city.name}"
       end
@@ -47,7 +52,23 @@ class Turn
       destination = @player.hand.delete_at(card_index.to_i)
       @player.location = destination.city
       @city_deck.discard(destination)
+
+
     when Action::CHARTER_FLIGHT
+      card_index = @player.hand.map { |card| card.city }.index(@player.location)
+      card = @player.hand.delete_at(card_index)
+      @city_deck.discard(card)
+
+      puts "Which city are you going to? (#{card.city} discarded)"
+      city_list = []
+      @board.cities.each do |city_name, city|
+        puts "#{city_list.size}) #{city_name}"
+        city_list << city
+      end
+
+      city_index = gets
+      @player.location = city_list[city_index.to_i]
+
 
     when Action::SHUTTLE_FLIGHT
     end

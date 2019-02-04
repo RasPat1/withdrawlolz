@@ -67,7 +67,7 @@ class Pandemic
   def turn
     current_player = @players.shift
     @players << current_player
-    @current_turn = Turn.new(current_player, @city_deck)
+    @current_turn = Turn.new(current_player, @city_deck, @board)
     @turns << @current_turn
 
     @actions_per_turn.times do

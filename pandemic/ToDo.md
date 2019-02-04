@@ -3,9 +3,6 @@
 In Order:
 * Add visual interface
 
-* Movement 1 via city card
-* Movement 2 via city card
-
 * Add debugging tool
 
 * Multiple Players
@@ -44,3 +41,5 @@ Done:
   * Run out of game cubes
   * Have too many outbreaks
 * Infection intensity goes up with each epicemic
+* Movement 1 via city card
+* Movement 2 via city card
