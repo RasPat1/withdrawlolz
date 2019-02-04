@@ -17,7 +17,7 @@ class Board
   def total_infections
     infections = 0
 
-    cities.each do |city|
+    cities.each do |city_name, city|
       infections += city.infections
     end
 

@@ -24,7 +24,6 @@ Not yet Ordered:
 * Add different types of infections
 * Allow user to choose which type of character
 * infection they are trying to cure in a city
-* Infection intensity goes up with each epicemic
 * Error Handling
 * Separate game logic from interaction logic and display logic
 * Allow setting up all actions before "executing" them or like an undo during turn
@@ -44,3 +43,4 @@ Done:
   * Run out of city cards
   * Run out of game cubes
   * Have too many outbreaks
+* Infection intensity goes up with each epicemic

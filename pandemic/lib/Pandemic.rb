@@ -67,7 +67,7 @@ class Pandemic
   def turn
     current_player = @players.shift
     @players << current_player
-    @current_turn = Turn.new(current_player)
+    @current_turn = Turn.new(current_player, @city_deck)
     @turns << @current_turn
 
     @actions_per_turn.times do
@@ -75,7 +75,6 @@ class Pandemic
       chosen_action = gets
       chosen_action = chosen_action.to_i
       @current_turn.act(chosen_action)
-      puts self
     end
 
     draw_city_cards(current_player, 2)
@@ -150,6 +149,7 @@ class Pandemic
   def infect_board(rounds, cards_per_round)
     rounds.times do |round|
       infections_per_card = rounds - round
+      puts self
       cards_per_round.times do
         infect(infections_per_card)
       end

@@ -4,8 +4,9 @@ class Turn
 
   MAX_ACTIONS = 4
 
-  def initialize(player, actions = [])
+  def initialize(player, city_deck, actions = [])
     @player = player
+    @city_deck = city_deck
     @actions = actions
   end
 
@@ -21,7 +22,7 @@ class Turn
     case action
     when Action::CURE
       @player.location.remove_infection
-    when Action::TRAVEL
+    when Action::DRIVE
       current_city = @player.location
 
       # ToDo: woof really breaking separation of concerns here
@@ -36,6 +37,19 @@ class Turn
       new_city = current_city.neighbors[destination_index.to_i]
 
       @player.move(new_city) unless new_city == nil
+    when Action::DIRECT_FLIGHT
+      puts "Which city are you going to (This will discard the card)?"
+      @player.hand.each_with_index do |card, index|
+        puts "#{index}) #{card.city.name}"
+      end
+
+      card_index = gets
+      destination = @player.hand.delete_at(card_index.to_i)
+      @player.location = destination.city
+      @city_deck.discard(destination)
+    when Action::CHARTER_FLIGHT
+
+    when Action::SHUTTLE_FLIGHT
     end
 
     @actions << action

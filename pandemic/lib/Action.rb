@@ -9,10 +9,13 @@ class Action
     BUILD = :build,
 
     # city next to you
-    # reserach station to reserach station
-    # Use card to go from current city to card city
-    # Use card to go from card city to any city
-    TRAVEL = :travel
+    DRIVE = :drive,
+    # Discard a City card to move to the city named on the card.
+    DIRECT_FLIGHT = :direct_flight,
+    # Discard the City card that matches the city you are in to move to any city.
+    CHARTER_FLIGHT = :charter_flight,
+    # Move from a city with a research station to any other city that has a research station.
+    SHUTTLE_FLIGHT = :shuttle_flight
   ]
 
   def initialize(type)
@@ -22,16 +25,22 @@ class Action
   def self.can_take_action(player, type)
     case type
     when CURE
-      return player.location.infections > 0
+      player.location.infections > 0
       # return true
     # when FLY
-    #   @player.has_city_card(player.location)
+    #   @player.has_cit y_card(player.location)
     # when
-    when TRAVEL
-      # player.location.neighbors.size > 0
-      return true
+    when DRIVE
+      true
+    when DIRECT_FLIGHT
+      player.hand.size > 0
+    when CHARTER_FLIGHT
+      player.hand.map { |card| card.city }.include?(player.location)
+    when SHUTTLE_FLIGHT
+      # ToDo: Implement research stations
+      false
+    else
+      false
     end
-
-    false
   end
 end
