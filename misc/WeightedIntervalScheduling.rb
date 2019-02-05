@@ -44,6 +44,8 @@ class WeightedIntervalScheduling
       max_weight = interval.weight
       steps = []
 
+      # endpoint list is sorted so ya konw we could just do binary search here
+      # woudl bring the whoel thing down to nlgn
       endpoints.reverse.each do |endpoint|
         if interval.start > endpoint.stop
           max_weight += endpoint.best_weight
@@ -175,6 +177,20 @@ class Tester
     t7 << WeightedInterval.new(5,9,4)
     t7 << WeightedInterval.new(10,12,5)
     run(t7)
+
+    # Optimal here is 10
+    t8 = []
+    t8 << WeightedInterval.new(1,4,3)
+    t8 << WeightedInterval.new(2,3,5)
+    t8 << WeightedInterval.new(10,12,5)
+    run(t8)
+
+    # Optimal here is 11
+    t9 = []
+    t9 << WeightedInterval.new(1,4,6)
+    t9 << WeightedInterval.new(2,3,3)
+    t9 << WeightedInterval.new(10,12,5)
+    run(t9)
   end
 
   def run(list)
