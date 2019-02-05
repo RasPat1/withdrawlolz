@@ -2,8 +2,12 @@
 
 In Order:
 * Add visual interface
-
 * Add debugging tool
+* Add testing tool
+* Separate out input/output mechanism
+* Add Event emitter/receiver or PUB/SUB? Switch data scoping so
+  we can have better data flow and not include every object in
+  every other object's constructor
 
 * Multiple Players
 
@@ -12,6 +16,7 @@ In Order:
     * rules on building one
     * Representation of RC in game
 * Add movement via research center
+* Add cure trackers
 
 * Add character roles
 * Add special ability cards
