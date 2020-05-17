@@ -1,0 +1,22 @@
+In an isosceles trapezoid, the parallel bases have lengths $\log 3$ and $\log 192$, and the altitude to these bases has length $\log 16$. The perimeter of the trapezoid can be written in the form $\log 2^p 3^q$, where $p$ and $q$ are positive integers. Find $p + q$.
+
+
+log3 + log 192 + (2L)
+((log 192 - log 3) / 2)^2 + (log16)^2 = L^2
+
+((6 * log 2) / 2) ^ 2 + (4 * log 2) ^ 2 = L ^ 2
+(3*log 2) ^ 2 + (4 * log 2) ^ 2
+9 * log2log2 + 16*log2log2
+17(log2log2) = L^2
+rad17log2 = L
+
+
+((6 * log 2) / 2) ^ 2 + (4 * log 2) ^ 2 = L ^ 2
+(36 * log2log2) / 4  + 16 * log2log2 = L ^ 2
+9 * log2log2 + 16 * log2log2 = L ^ 2
+25 * log2log2 = L^2
+5 * log2 = L
+log 192 = log 2^6*3
+
+log2^6*3 + log 3 + 2 * 5*log2
+log2^16*3^2 = 18
