@@ -1,3 +1,5 @@
+# This is how we play the game from the cli.
+
 require 'rubygems'
 require 'bundler/setup'
 

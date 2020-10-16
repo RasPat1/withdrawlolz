@@ -1,5 +1,7 @@
 require 'sinatra'
+require "sinatra/reloader" if development?
+require './lib/Pandemic.rb'
 
-get '/frank-says' do
-  'Put this in your pipe & smoke it!'
+get '/start' do
+  game = Pandemic.new
 end
