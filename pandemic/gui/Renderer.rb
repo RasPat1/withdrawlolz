@@ -24,6 +24,13 @@ class HTMLRenderer < Renderer
   end
 end
 
+# Output a json version of the game?
+class JSONRenderer < Renderer
+  def render
+    "#{game}"
+  end
+end
+
 
 
 # Should the game be passed to the renderer or the renderer to be passed to the game?

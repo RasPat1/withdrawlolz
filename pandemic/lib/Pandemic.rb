@@ -182,6 +182,14 @@ class Pandemic
     false
   end
 
+  def register_renderer(renderer)
+    @renderer = renderer
+  end
+
+  def render
+    @renderer.render
+  end
+
   # Print out the game state for debugging
   def to_s
     "
