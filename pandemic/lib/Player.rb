@@ -3,10 +3,11 @@ class Player
 
   MAX_HAND_SIZE = 7
 
-  def initialize(name, location = nil, hand = [])
+  def initialize(name, location = nil, hand = [], io = NoOpIO.new)
     @name = name
     @location = location
     @hand = hand
+    @io = io
   end
 
   # fails to move ne location is not connected to old location
@@ -36,11 +37,11 @@ class Player
     discarded_cards = []
 
     while @hand.size > MAX_HAND_SIZE
-      puts "You have too many cards: Discard a card"
+      @io.puts "You have too many cards: Discard a card"
       @hand.each_with_index do |card, index|
-        puts "#{index}) #{card.city.name}"
+        @io.puts "#{index}) #{card.city.name}"
       end
-      card_index = gets
+      card_index = @io.gets
       card_index = card_index.to_i
       discarded_cards << @hand[card_index]
       @hand.delete_at(card_index)

@@ -22,6 +22,7 @@ class Pandemic
   MAX_INFECTIONS = 24
 
   def initialize(player_count = 1, difficulty = 2)
+    @io = CliIO.new
     @board = Board.new
     @players = []
     @infection_deck = Deck.new
@@ -40,25 +41,25 @@ class Pandemic
     infect_board(pre_game_infection_rounds, infection_count_per_card)
     add_epidemic_cards(difficulty)
 
-    puts "======================================"
+    @io.puts "======================================"
   end
 
   def play
-    puts "==============GAME START=============="
+    @io.puts "==============GAME START=============="
     while game_over == false
-      puts self
+      @io.puts self
       turn
 
       @board.rate.times do
         infect
       end
     end
-    puts "===============GAME END==============="
+    @io.puts "===============GAME END==============="
   end
 
   def init_players(player_count)
     player_count.times do
-      @players << Player.new("P1", @board.starting_city)
+      @players << Player.new("P1", @board.starting_city, [], @io)
     end
   end
 
@@ -67,12 +68,12 @@ class Pandemic
   def turn
     current_player = @players.shift
     @players << current_player
-    @current_turn = Turn.new(current_player, @city_deck, @board)
+    @current_turn = Turn.new(current_player, @city_deck, @board, @io)
     @turns << @current_turn
 
     @actions_per_turn.times do
       @current_turn.show_actions
-      chosen_action = gets
+      chosen_action = @io.gets
       chosen_action = chosen_action.to_i
       @current_turn.act(chosen_action)
     end
@@ -101,7 +102,7 @@ class Pandemic
 
   def infect(infection_count = 1)
     card = @infection_deck.draw
-    puts card
+    @io.puts card
 
     outbreaks_added = card.city.add_infection(infection_count)
     @outbreak_count += outbreaks_added
@@ -149,7 +150,7 @@ class Pandemic
   def infect_board(rounds, cards_per_round)
     rounds.times do |round|
       infections_per_card = rounds - round
-      puts self
+      @io.puts self
       cards_per_round.times do
         infect(infections_per_card)
       end
