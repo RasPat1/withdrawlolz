@@ -81,8 +81,8 @@ def p4_coolest():
   return largest_pdrome
 
 
-p4()
-p4_cool()
-print(p4_coolest())
+p4()  # 404550 loops
+p4_cool()  # 4050 loops
+p4_coolest()  # 1324 loops
 # solution = p4()
 # print(solution)
