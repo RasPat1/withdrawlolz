@@ -38,7 +38,7 @@ def solve(shuffled_boxes, max_box_checks):
   return True
 
 
-def test(box_coune, max_box_checks, runs):
+def test(box_count, max_box_checks, runs):
   boxes = list(range(box_count))
   success_count = 0
 
