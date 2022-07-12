@@ -1,23 +1,20 @@
 # Problem Statement
-# You have 100 prisoners in a squid game.
-# The numbers 1-100 are uniquely assigned to each prisoner.
-# Each prisoner will, one at a time, enter a room filled with 100 boxes.
-# The boxes are similarly numbered 1-100, but the numbering is not
-# visible on the outside of the box.
-# A prisoner can open a box, see the number inside the box, and enter the
-# box if and only if their number matches the boxes number.
-# Each prisoner can open up to 50 boxes.
-# If any prisoner can’t find their box within 50 tries the game ends in a loss.
-# Otherwise, the game ends in a win if all prisoners have entered the correct box.
+# You have 100 players in a squid game.
+# The numbers 1-100 are uniquely assigned to each player.
+# Each player will, one at a time, enter a room filled with 100 boxes.
+# Each box contains a unqiue number from 1-100.
+# A player can only see a box's number by opening that box.
+# Each player is allowed to open up to 50 boxes while in the room.
+# Once they find the box containing their number or open 50 boxes they leave the room.
+# The game is won if all players find their box before leaving the room.
+# What strategy maximizes their chance of winning the game?
 
 # Additional notes:
 
-# - Prisoners can strategize freely before the game begins.
-# - Prisoners can arrange the boxes before the game begins.
-# - Prisoners can choose their numbers.
-# - Prisoners can choose in what order they enter the box room.
-# - Once a prisoner enters a box they are visible by all who open the same box.
-# - The optimal strategy allows for all prisoners to survive ~30% of the time.
+# - Players can strategize freely before the game begins.
+# - Players can arrange the boxes before the game begins.
+# - Players can choose in what order they enter the box room.
+# - The optimal strategy allows for all players to survive ~30% of the time.
 
 
 import random
