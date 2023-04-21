@@ -53,7 +53,7 @@ def test(box_count, max_box_checks, runs):
   print(f'Successful Runs:    {success_count}')
 
 
-box_count = 100
-max_box_checks = 50
-runs = 10000
+box_count = 10000
+max_box_checks = 5000
+runs = 100000000
 test(box_count, max_box_checks, runs)

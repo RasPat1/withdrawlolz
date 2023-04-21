@@ -28,3 +28,7 @@ def p9_bf(abc_sum):
 abc_sum = 1000
 solution = p9_bf(abc_sum)
 print(solution)
+
+# Let's see if we can do something different.
+# How do we solve for pythagorean triples?
+#
